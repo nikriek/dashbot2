@@ -44,7 +44,10 @@ app.get('/dashboards/new')
 app.get('/dashboards/:dashboardId', routes.dashboard);
 
 app.get('/auth/slack', routes.authenticateSlack);
-app.get('/auth/slack/callback', routes.authenticateSlackCallback);
+app.get('/auth/slack/callback', routes.authenticateSlackCallback, function(req, res) {
+    console.log(req);
+    res.redirect('/');
+  });
 
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
