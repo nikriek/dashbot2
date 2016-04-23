@@ -2,7 +2,7 @@
 * @Author: Dat Dev
 * @Date:   2016-04-23 16:10:10
 * @Last Modified by:   Stefan Wirth
-* @Last Modified time: 2016-04-23 20:57:30
+* @Last Modified time: 2016-04-23 21:47:30
 */
 
 var Promise = require('bluebird');
@@ -35,15 +35,15 @@ function connect() {
     });
 }
 
-function start() {
+function start(websocketServer) {
     connect().
     then(function(controller) {
-        configureGithub(controller);
-        configureWeather(controller);
+        configureGithub(controller, websocketServer);
+        configureWeather(controller, websocketServer);
     });
 }
 
-function configureWeather(controller) {
+function configureWeather(controller, websocketServer) {
     controller.hears('weather (\\w+)', 'direct_message,direct_mention,mention', function(bot, message) {
         request({
             uri: WEATHER_API_URL,
@@ -66,7 +66,7 @@ function configureWeather(controller) {
     });
 }
 
-function configureGithub(controller) {
+function configureGithub(controller, websocketServer) {
     controller.hears('commits (\\w+)','direct_message,direct_mention,mention', function(bot, message) {
         request({
             uri: GITHUB_API_URL + 'search/repositories',
@@ -89,6 +89,19 @@ function configureGithub(controller) {
                 var commit = commit.commit;
                 res += '[' + commit.author.name + '] ' + commit.message;
                 res += '\n';
+            });
+            websocketServer.clients.forEach(function(client) {
+                var payload = {
+                    type: 'text',
+                    data: {
+                        content: res
+                    },
+                    'col':'1',
+                    'row':'1',
+                    'sizex':'2',
+                    'sizey':'3'
+                }
+                client.send(JSON.stringify(payload));
             });
             bot.reply(message, res);
         })

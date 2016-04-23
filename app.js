@@ -2,7 +2,7 @@
 * @Author: Dat Dev
 * @Date:   2016-04-23 13:29:58
 * @Last Modified by:   Stefan Wirth
-* @Last Modified time: 2016-04-23 16:26:26
+* @Last Modified time: 2016-04-23 21:18:55
 */
 
 'use strict';
@@ -48,5 +48,5 @@ app.get('/auth/slack/callback', routes.authenticateSlackCallback);
 
 server.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
-  bot.start();
+  bot.start(websocket);
 });
