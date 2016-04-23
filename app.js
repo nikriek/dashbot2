@@ -46,7 +46,7 @@ app.get('/dashboards/:dashboardId', routes.dashboard);
 app.get('/auth/slack', routes.authenticateSlack);
 app.get('/auth/slack/callback', routes.authenticateSlackCallback, function(req, res) {
     console.log(req);
-    res.redirect('/');
+    res.json({});
   });
 
 app.listen(app.get('port'), function() {
