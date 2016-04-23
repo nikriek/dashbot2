@@ -1,0 +1,26 @@
+{
+  "name": "dashbot",
+  "version": "1.0.0",
+  "description": "Backend for a dashboard with different slack bot",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nikriek/dashbot.git"
+  },
+  "keywords": [
+    "bot"
+  ],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nikriek/dashbot/issues"
+  },
+  "homepage": "https://github.com/nikriek/dashbot#readme",
+  "dependencies": {
+    "ejs-locals": "^1.0.2",
+    "express": "^4.13.4"
+  }
+}
