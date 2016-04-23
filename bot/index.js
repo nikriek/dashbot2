@@ -2,7 +2,7 @@
 * @Author: Dat Dev
 * @Date:   2016-04-23 16:10:10
 * @Last Modified by:   Stefan Wirth
-* @Last Modified time: 2016-04-24 00:26:16
+* @Last Modified time: 2016-04-24 00:46:06
 */
 
 var Promise = require('bluebird');
@@ -166,11 +166,10 @@ function configureGoogleMaps(controller, websocketServer) {
     controller.hears('travel from (\\w+) to (\\w+)', 'direct_message,direct_mention,mention', function(bot, message) {
         var from = message.match[1];
         var to   = message.match[2];
-        var url  = 'https://maps.google.de/maps?f=q&source=s_q&hl=de&origin='
+        var url  = 'https://www.google.com/maps/embed/v1/directions?origin='
             + encodeURIComponent(from)
-            + 'destination'
-            + encodeURIComponent(to)
-            +'&ie=UTF8&z=14&output=embed&iwloc=near';
+            + '&destination='
+            + encodeURIComponent(to);
 
         var payload = JSON.stringify({
             type: 'map',
