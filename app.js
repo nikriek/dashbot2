@@ -2,7 +2,7 @@
 * @Author: Dat Dev
 * @Date:   2016-04-23 13:29:58
 * @Last Modified by:   Stefan Wirth
-* @Last Modified time: 2016-04-23 14:50:44
+* @Last Modified time: 2016-04-23 15:21:12
 */
 
 'use strict';
@@ -41,8 +41,8 @@ app.get('/', routes.index);
 app.get('/dashboards/new')
 app.get('/dashboards/:dashboardId', routes.dashboard);
 
-router.get('/auth/slack', routes.authenticateSlack);
-router.get('/auth/slack/callback', routes.authenticateSlackCallback);
+app.get('/auth/slack', routes.authenticateSlack);
+app.get('/auth/slack/callback', routes.authenticateSlackCallback);
 
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));

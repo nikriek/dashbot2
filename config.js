@@ -1,9 +1,9 @@
-module.exports {
-  secret: (process.ENV.SECRET || 'secret'),
+module.exports = {
+  secret: (process.env.SECRET || 'secret'),
   slack: {
-    clientID: process.ENV.SLACK_CLIENT_ID,
-    clientID: process.ENV.SLACK_CLIENT_SECRET,
-    redirectUri: process.ENV.SLACK_REDIRECT_URI
+    clientID: process.env.SLACK_CLIENT_ID || 'deezIds',
+    clientSecret: process.env.SLACK_CLIENT_SECRET || 'deezSecrets',
+    redirectUri: process.env.SLACK_REDIRECT_URI || 'deezUris'
   }
   redis: {
     host: (process.ENV.REDIS_URL || 'localhost')
