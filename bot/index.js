@@ -236,8 +236,9 @@ function configureYoutube(controller, websocketServer) {
         request({
             uri: YOUTUBE_API,
             qs: {
-                q: encodeURI(message.match[1])
-                part: 'id,snippet'
+                q: encodeURI(message.match[1]),
+                part: 'id,snippet',
+                key: 'AIzaSyCR5In4DZaTP6IEZQ0r1JceuvluJRzQNLE'
             },
             json: true
         })
