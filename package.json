@@ -26,9 +26,12 @@
     "ejs-locals": "^1.0.2",
     "express": "^4.13.4",
     "express-session": "^1.13.0",
+    "mongodb": "^2.1.16",
+    "mongoose": "^4.4.13",
     "node-uuid": "^1.4.7",
     "passport": "0.3.2",
     "passport-slack": "0.0.6",
-    "redis": "^2.5.3"
+    "redis": "^2.5.3",
+    "socket.io": "^1.4.5"
   }
 }
