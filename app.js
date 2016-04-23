@@ -23,7 +23,7 @@ var io = require('socket.io')(server);
 
 app.set('port', (process.env.PORT || 8080));
 
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/client'));
 app.use(bodyParser.json());
 
 app.use(session({
