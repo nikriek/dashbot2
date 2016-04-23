@@ -2,7 +2,7 @@
 * @Author: Dat Dev
 * @Date:   2016-04-23 16:10:10
 * @Last Modified by:   Stefan Wirth
-* @Last Modified time: 2016-04-23 23:29:15
+* @Last Modified time: 2016-04-24 00:26:16
 */
 
 var Promise = require('bluebird');
@@ -15,6 +15,12 @@ var WEATHER_API_URL = 'http://api.openweathermap.org/data/2.5/weather';
 var WEATHER_API_KEY = 'da10088df7a4a9b535842d280d0a05f1';
 var GIPHY_API_URL = 'http://api.giphy.com/v1/gifs/search';
 var GIPHY_API_KEY = 'dc6zaTOxFJmzC';
+var GIPHY_MAPPINGS = {
+    sad: 'happy',
+    happy: 'happy',
+    fu: 'fuck you',
+    lol: 'lol'
+};
 var YOUTUBE_API = 'https://www.googleapis.com/youtube/v3/search';
 
 'use strict';
@@ -43,6 +49,7 @@ function start(websocketServer) {
     then(function(controller) {
         configureGithub(controller, websocketServer);
         configureWeather(controller, websocketServer);
+        configureGoogleMaps(controller, websocketServer);
         configureGiphy(controller, websocketServer);
         configureYoutube(controller, websocketServer);
     });
@@ -155,10 +162,41 @@ function configureGithub(controller, websocketServer) {
     });
 }
 
+function configureGoogleMaps(controller, websocketServer) {
+    controller.hears('travel from (\\w+) to (\\w+)', 'direct_message,direct_mention,mention', function(bot, message) {
+        var from = message.match[1];
+        var to   = message.match[2];
+        var url  = 'https://maps.google.de/maps?f=q&source=s_q&hl=de&origin='
+            + encodeURIComponent(from)
+            + 'destination'
+            + encodeURIComponent(to)
+            +'&ie=UTF8&z=14&output=embed&iwloc=near';
+
+        var payload = JSON.stringify({
+            type: 'map',
+            data: {
+                url: url
+            },
+            col:'1',
+            row:'1',
+            sizex:'2',
+            sizey:'3'
+        });
+
+        websocketServer.clients.forEach(function(client) {
+            client.send(payload);
+        });
+
+        bot.reply(message, 'Gotcha mate');
+    });
+}
+
 function configureGiphy(controller, websocketServer) {
     controller.hears('mood (\\w+)', 'direct_message,direct_mention,mention', function(bot, message) {
-        //TODO: Set based on input mood
-        var query = 'cat'
+        //TODO: Set based on input moo
+        var mood = message.match[1];
+        var query = (GIPHY_MAPPINGS[mood]) ? GIPHY_MAPPINGS[mood] : 'cat';
+
         request({
             uri: GIPHY_API_URL,
             qs: {
@@ -168,7 +206,9 @@ function configureGiphy(controller, websocketServer) {
             json: true
         })
         .then(function(giphs) {
-            var giphUrl = giphs.data[0].images.original.url;
+            var index = Math.floor(Math.random() * giphs.data.length);
+            console.log(index);
+            var giphUrl = giphs.data[index].images.original.url;
             var payload = JSON.stringify({
                 type: 'image',
                 data: {
