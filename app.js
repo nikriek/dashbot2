@@ -24,7 +24,7 @@ var WebSocketServer = require("ws").Server
 
 app.set('port', (process.env.PORT || 8080));
 
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/client'));
 app.use(bodyParser.json());
 app.use(cookieParser(config.secret));
 app.use(session({
