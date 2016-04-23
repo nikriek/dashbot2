@@ -15,6 +15,7 @@ var passport = require('passport');
 var session = require('express-session');
 var config = require('./config');
 var bodyParser = require('body-parser');
+var RedisStore = require('connect-redis')(session);
 
 var app = express();
 
@@ -24,6 +25,7 @@ app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.json());
 
 app.use(session({
+  store: new RedisStore({host: config.redis.host}),
   secret: config.secret,
   resave: true,
   saveUninitialized: true
