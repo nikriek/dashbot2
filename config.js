@@ -6,6 +6,6 @@ module.exports = {
     redirectUri: process.env.SLACK_REDIRECT_URI || 'deezUris'
   },
   redis: {
-    host: (process.env.REDIS_URL || 'localhost')
+    url: (process.env.REDIS_URL || 'redis://localhost')
   }
 }

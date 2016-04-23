@@ -25,7 +25,7 @@ app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.json());
 
 app.use(session({
-  store: new RedisStore({host: config.redis.host}),
+  store: new RedisStore({url: config.redis.url}),
   secret: config.secret,
   resave: true,
   saveUninitialized: true

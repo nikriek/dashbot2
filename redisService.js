@@ -8,7 +8,7 @@
 'use strict';
 
 var config = require('./config');
-var client = require('redis').createClient({host: config.redis.host});
+var client = require('redis').createClient({url: config.redis.url});
 var Promise = require('bluebird');
 
 client.on('err', function(err) {
