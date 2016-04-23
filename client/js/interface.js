@@ -97,19 +97,25 @@ var Grid = React.createClass({
 	},
 	componentDidMount: function() {
 		window.widgets = this;
+      	this.setState({updateGrid: true});
+	},
+	componentDidUpdate: function() {
+      	if(this.state.updateGrid) {
+			$("ul").data("gridster", null);
+			var gridster = $("ul").gridster({
+	      		widget_base_dimensions: [200, 200],
+	      		widget_margins: [10, 10],
+	      		max_cols: 5,
+	      		min_cols: 5,
+	      		min_rows: 5,
+	      		max_rows: 5,
+	      		resize: {
+	            enabled: true
+	          }
+	      	}).data('gridster');
 
-		var gridster = $("ul").gridster({
-      		widget_base_dimensions: [200, 200],
-      		widget_margins: [10, 10],
-      		max_cols: 5,
-      		min_cols: 5,
-      		min_rows: 5,
-      		max_rows: 5,
-      		resize: {
-            enabled: true
-          }
-      	}).data('gridster');
-
+	      	this.setState({gridster: gridster, updateGrid: false});
+	    }
 	},
 	render: function() {
 		var widgets = $.map(this.state.widgets, function(widget, key) {
@@ -126,7 +132,8 @@ var Grid = React.createClass({
 	},
 	onUpdate: function(widgets){
 		this.setState({
-			widgets: widgets
+			widgets: widgets,
+			updateGrid: true
 		});
 	}
 });
