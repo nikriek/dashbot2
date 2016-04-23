@@ -2,12 +2,13 @@
 * @Author: Dat Dev
 * @Date:   2016-04-23 14:38:07
 * @Last Modified by:   Stefan Wirth
-* @Last Modified time: 2016-04-23 14:55:44
+* @Last Modified time: 2016-04-23 15:34:18
 */
 
 'use strict';
-//TODO: Inject connection string from process.env
-var client = require('redis').createClient();
+
+var config = require('./config');
+var client = require('redis').createClient({host: config.redis.host});
 var Promise = require('bluebird');
 
 client.on('err', function(err) {
