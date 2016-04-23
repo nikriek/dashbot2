@@ -2,7 +2,7 @@
 * @Author: Dat Dev
 * @Date:   2016-04-23 13:29:58
 * @Last Modified by:   Stefan Wirth
-* @Last Modified time: 2016-04-23 15:21:12
+* @Last Modified time: 2016-04-23 16:26:26
 */
 
 'use strict';
@@ -17,6 +17,7 @@ var config = require('./config');
 var bodyParser = require('body-parser');
 var RedisStore = require('connect-redis')(session);
 var cookieParser = require('cookie-parser');
+var bot = require('./bot/index');
 
 var app = express();
 var server = require('http').createServer(app);
@@ -48,6 +49,7 @@ app.get('/auth/slack/callback', routes.authenticateSlackCallback);
 
 server.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
+  bot.start();
 });
 
 var wss = new WebSocketServer({server: server})
