@@ -2,7 +2,7 @@
 * @Author: Dat Dev
 * @Date:   2016-04-23 16:10:10
 * @Last Modified by:   Stefan Wirth
-* @Last Modified time: 2016-04-24 00:46:06
+* @Last Modified time: 2016-04-24 00:55:05
 */
 
 var Promise = require('bluebird');
@@ -237,12 +237,14 @@ function configureYoutube(controller, websocketServer) {
             qs: {
                 q: encodeURI(message.match[1]),
                 part: 'id,snippet',
-                key: 'AIzaSyCR5In4DZaTP6IEZQ0r1JceuvluJRzQNLE'
+                key: 'AIzaSyCR5In4DZaTP6IEZQ0r1JceuvluJRzQNLE',
+                type: 'video'
             },
             json: true
         })
         .then(function(videos) {
             var videoId = videos.items[0].id.videoId;
+            console.log( videos.items[0]);
             var payload = JSON.stringify({
                 type: 'youtube',
                 data: {
