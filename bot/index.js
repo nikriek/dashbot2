@@ -46,6 +46,18 @@ function start(websocketServer) {
     });
 }
 
+
+function getReply() {
+    var replies = [
+        'Gotcha mate.',
+        'Got you fam.',
+        'Say no more.',
+        'As you command.'
+    ];
+
+    return replies[Math.floor(Math.random() * replies.length)];
+}
+
 function configureWeather(controller, websocketServer) {
     controller.hears('weather (\\w+)', 'direct_message,direct_mention,mention', function(bot, message) {
         request({
@@ -89,7 +101,8 @@ function configureWeather(controller, websocketServer) {
             websocketServer.clients.forEach(function(client) { 
                 client.send(payload);
             });
-            bot.reply(message, 'Gotcha mate');
+
+            bot.reply(message, getReply());
         });
     });
 }
@@ -132,7 +145,7 @@ function configureGithub(controller, websocketServer) {
             websocketServer.clients.forEach(function(client) {
                 client.send(payload);
             });
-            bot.reply(message, 'Gotcha mate');
+            bot.reply(message, getReply());
         })
         .catch(function(err) {
             console.error(err);
@@ -167,7 +180,7 @@ function configureGiphy(controller, websocketServer) {
             websocketServer.clients.forEach(function(client) {
                 client.send(payload);
             });
-            bot.reply(message, 'Gotcha mate');
+            bot.reply(message, getReply());
         })
         .catch(function(err) {
             console.error(err);
