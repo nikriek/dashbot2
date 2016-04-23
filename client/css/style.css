@@ -15,8 +15,8 @@ ul {
 
 body {
     font-size: 16px;
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    color: #444;
+    font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
+    color: #fff;
     background:#111;
     margin:10px;
 }
@@ -38,15 +38,14 @@ body {
 
 .gridster li {
     font-size: 1em;
-    font-weight: bold;
-    text-align: center;
     line-height: 100%;
 }
 
 
 .gridster {
     margin: 0 auto;
-
+    float:left;
+    width:100%;
     opacity: .8;
 
     -webkit-transition: opacity .6s;
@@ -70,3 +69,69 @@ body {
     border: none!important;
     background: red!important;
 }
+
+
+.widget {
+    padding:10px;
+    box-sizing: border-box;
+}
+
+.widget iframe{
+    width:100%;
+    height:90%;
+    position:absolute;
+    top:10px;
+    left:0px;
+    border:0px;
+}
+
+.widget.widget-image .image {
+    width:100%;
+    height:90%;
+    position:absolute;
+    top:10px;
+    left:0px;
+    background: url() no-repeat center center;
+    background-size:contain;
+    border:0px;
+}
+
+
+
+
+.weather {
+
+}
+
+.weather .icon {
+    font-size:30px;
+    margin:5px 5px 0px 0px;
+    float:right;
+}
+
+.weather .degree {
+    font-size:60px;
+    top:80px;
+    left:0px;
+    width:100%;
+    text-align: center;
+    float:left;
+    position: absolute;
+}
+
+
+.weather .location {
+    font-size:16px;
+    float:left;
+    width:100%;
+    float:left;
+    position: absolute;
+    left:0px;
+    bottom:0px;
+    padding:10px;
+    background:#222;
+    box-sizing: border-box;
+}
+
+
+
