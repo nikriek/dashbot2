@@ -10,21 +10,42 @@
 var passportSlack = require('./auth/slack');
 var uuid = require('node-uuid');
 var redisClient = require('./redisService');
+var SlackWebClient = require('slack-client/lib/clients/web/client');
+var Dashboard = require('./db').Dashboard;
+var mongoose = require('mongoose');
 
 module.exports = {
     home: function(req, res) {
         res.render('index');
     },
     index: function(req, res) {
-        res.render('pages/dashboards/index');
+        var accessToken = req.user.accessToken;
+        var slackClient = new SlackWebClient(accessToken);
+        slackClient.channels.list(function(err, channels) {
+          res.render('pages/dashboards/index', {channels: channels.channels});
+        });
     },
     create: function(req, res) {
-        var dashboardId = uuid.v4();
-        res.redirect('/dashboards/' + dashboardId);
+        var channelId = req.body.channel;
+        var accessToken = req.user.accessToken;
+        var slackClient = new SlackWebClient(accessToken);
+        var dashboard = new Dashboard();
+        dashboard.slackChannel = channelId;
+        dashboard.creator = req.user;
+        dashboard.save(function(err) {
+          res.redirect('/dashboards/' + dashboard.id);
+        })
     },
     show: function(req, res) {
-        var uuid = req.params.dashboardId;
-        res.render('pages/dashboards/show', {uuid: uuid});
+        var dashboardId = req.params.dashboardId;
+        console.log(dashboardId);
+        Dashboard.findById(dashboardId, function(err, dashboard) {
+          res.render('pages/dashboards/show', {dashboardId: dashboard.id});
+        });
+        /*var history = slackClient.channels.history(channelId, {count: 50}, function(err, history) {
+          res.redirect('/dashboards/' + dashboardId);
+        })*/
+
     },
     authenticateSlack: passportSlack.authenticate('slack'),
     authenticateSlackCallback: passportSlack.authenticate('slack', { successRedirect: '/dashboards',
