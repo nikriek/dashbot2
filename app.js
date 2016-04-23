@@ -40,8 +40,8 @@ app.set('view engine', 'ejs');
 app.post('/dashboards', routes.create);
 
 app.get('/', routes.index);
-app.get('/dashboards/new')
-app.get('/dashboards/:dashboardId', routes.dashboard);
+app.get('/dashboards/new', routes.new)
+app.get('/dashboards/:dashboardId', routes.show);
 
 app.get('/auth/slack', routes.authenticateSlack);
 app.get('/auth/slack/callback', routes.authenticateSlackCallback, function(req, res) {

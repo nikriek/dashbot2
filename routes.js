@@ -16,7 +16,7 @@ module.exports = {
         res.render('index');
     },
     new: function(req, res) {
-        res.render('new');
+        res.render('pages/dashboard/new');
     },
     create: function(req, res) {
         var dashboardId = uuid.v4();
@@ -37,9 +37,9 @@ module.exports = {
                 res.json(500, {error: err})
             });
     },
-    dashboard: function(req, res) {
+    show: function(req, res) {
         var uuid = req.params.dashboardId;
-        res.render('pages/dashboard', {uuid: uuid});
+        res.render('pages/dashboard/show', {uuid: uuid});
     },
 
     authenticateSlack: passportSlack.authenticate('slack'),
