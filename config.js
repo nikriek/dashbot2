@@ -5,4 +5,7 @@ module.exports {
     clientID: process.ENV.SLACK_CLIENT_SECRET,
     redirectUri: process.ENV.SLACK_REDIRECT_URI
   }
+  redis: {
+    host: (process.ENV.REDIS_URL || 'localhost')
+  }
 }
