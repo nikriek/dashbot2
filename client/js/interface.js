@@ -44,25 +44,13 @@ var Widget = React.createClass({
 	}
 });
 
-
 var Grid = React.createClass({
 	getInitialState: function() {
-		return { widgets:
-			{
-				'weather': {
-					'type':'weather',
-					'data': {
-						'degree':'36',
-						'location':'London, UK',
-						'condition':'Mostly Sunny',
-						'icon':'sun-o'
-					},
-					'col':'1',
-					'row':'1',
-					'sizex':'1',
-					'sizey':'1'
-				},
-				'text': {
+		return { 
+			widgets: 
+			[
+				
+				{
 					'type':'text',
 					'data': {
 						'content':'Julius 123'
@@ -72,7 +60,7 @@ var Grid = React.createClass({
 					'sizex':'1',
 					'sizey':'1'
 				},
-				'map': {
+				{
 					'type':'map',
 					'data': {
 						'url':'https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d20145.441013409138!2d-0.0819660330810601!3d50.864864973999495!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sde!2suk!4v1461431861495'
@@ -82,7 +70,7 @@ var Grid = React.createClass({
 					'sizex':'3',
 					'sizey':'2'
 				},
-				'image': {
+				{
 					'type':'image',
 					'data': {
 						'url':'http://24.media.tumblr.com/tumblr_m5xb7jt3By1rotwwto1_500.gif'
@@ -92,31 +80,37 @@ var Grid = React.createClass({
 					'sizex':'2',
 					'sizey':'1'
 				}
-			}
+			] 
 		};
 	},
 	componentDidMount: function() {
 		window.widgets = this;
+      	this.setState({updateGrid: true});
+	},
+	componentDidUpdate: function() {
+      	if(this.state.updateGrid) {
+			$("ul").data("gridster", null);
+			var gridster = $("ul").gridster({
+	      		widget_base_dimensions: [200, 200],
+	      		widget_margins: [10, 10],
+	      		max_cols: 5,
+	      		min_cols: 5,
+	      		min_rows: 5,
+	      		max_rows: 5,
+	      		resize: {
+	            enabled: true
+	          }
+	      	}).data('gridster');
 
-		var gridster = $("ul").gridster({
-      		widget_base_dimensions: [200, 200],
-      		widget_margins: [10, 10],
-      		max_cols: 5,
-      		min_cols: 5,
-      		min_rows: 5,
-      		max_rows: 5,
-      		resize: {
-            enabled: true
-          }
-      	}).data('gridster');
-
+	      	this.setState({gridster: gridster, updateGrid: false});
+	    }
 	},
 	render: function() {
-		var widgets = $.map(this.state.widgets, function(widget, key) {
+		var widgets = this.state.widgets.map(function(widget) {
 			return (
 				<Widget key={widget.type} {...widget} />
 			);
-		});
+		}.bind(this));
 
 		return (
 			<ul className="gridster">
@@ -126,7 +120,8 @@ var Grid = React.createClass({
 	},
 	onUpdate: function(widgets){
 		this.setState({
-			widgets: widgets
+			widgets: widgets,
+			updateGrid: true
 		});
 	}
 });
