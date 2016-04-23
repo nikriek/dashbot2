@@ -31,6 +31,7 @@
     "node-uuid": "^1.4.7",
     "passport": "0.3.2",
     "passport-slack": "0.0.6",
-    "redis": "^2.5.3"
+    "redis": "^2.5.3",
+    "socket.io": "^1.4.5"
   }
 }

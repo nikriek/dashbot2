@@ -18,6 +18,8 @@ var bodyParser = require('body-parser');
 var RedisStore = require('connect-redis')(session);
 
 var app = express();
+var server = require('http').createServer(app);
+var io = require('socket.io')(server);
 
 app.set('port', (process.env.PORT || 8080));
 
@@ -44,6 +46,11 @@ app.get('/dashboards/:dashboardId', routes.show);
 app.get('/auth/slack', routes.authenticateSlack);
 app.get('/auth/slack/callback', routes.authenticateSlackCallback);
 
-app.listen(app.get('port'), function() {
+io.on('connection', function(){
+  console.log('WS on')
+ });
+
+
+server.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
 });
