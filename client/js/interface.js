@@ -9,6 +9,7 @@ var Widget = React.createClass({
 				html = this.props.data.content
 			break;
 
+			case 'youtube':
 			case 'video':
 			case 'map':
 				html = <iframe src={this.props.data.url} />

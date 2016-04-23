@@ -15,6 +15,7 @@ var WEATHER_API_URL = 'http://api.openweathermap.org/data/2.5/weather';
 var WEATHER_API_KEY = 'da10088df7a4a9b535842d280d0a05f1';
 var GIPHY_API_URL = 'http://api.giphy.com/v1/gifs/search';
 var GIPHY_API_KEY = 'dc6zaTOxFJmzC';
+var YOUTUBE_API = 'https://www.googleapis.com/youtube/v3/search';
 
 'use strict';
 
@@ -43,6 +44,7 @@ function start(websocketServer) {
         configureGithub(controller, websocketServer);
         configureWeather(controller, websocketServer);
         configureGiphy(controller, websocketServer);
+        configureYoutube(controller, websocketServer);
     });
 }
 
@@ -187,3 +189,37 @@ function configureGiphy(controller, websocketServer) {
         });
     });
 }
+
+
+function configureYoutube(controller, websocketServer) {
+    controller.hears('youtube (\\w+)', 'direct_message,direct_mention,mention', function(bot, message) {
+        request({
+            uri: YOUTUBE_API,
+            qs: {
+                q: encodeURI(message.match[1])
+            },
+            json: true
+        })
+        .then(function(videos) {
+            var videoId = videos.items[0].id.videoId;
+            var payload = JSON.stringify({
+                type: 'youtube',
+                data: {
+                    url: 'https://www.youtube.com/embed/' + videoId + '?rel=0&amp;controls=0&amp;showinfo=0&amp;autoplay=1'
+                },
+                col:'1',
+                row:'1',
+                sizex:'3',
+                sizey:'2'
+            });
+            websocketServer.clients.forEach(function(client) {
+                client.send(payload);
+            });
+            bot.reply(message, getReply());
+        })
+        .catch(function(err) {
+            console.error(err);
+        });
+    });
+}
+
