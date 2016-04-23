@@ -11,13 +11,11 @@ ws.onopen = function()
 ws.onmessage = function (evt)
 {
   var received_msg = evt.data;
-  alert("Message is received...");
-};
+  var widgets = window.widgets.widgets;
+  widgets[evt.data.type] = evt.data;
+  window.widgets.onUpdate(widgets)
 
-ws.onclose = function()
-{
-  // websocket is closed.
-  alert("Connection is closed...");
+  alert("Message is received...");
 };
 </script>
 
