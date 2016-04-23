@@ -2,7 +2,7 @@
 * @Author: Dat Dev
 * @Date:   2016-04-23 16:10:10
 * @Last Modified by:   Stefan Wirth
-* @Last Modified time: 2016-04-23 21:47:30
+* @Last Modified time: 2016-04-23 23:29:15
 */
 
 var Promise = require('bluebird');
@@ -13,6 +13,8 @@ var SLACK_BOT_TOKEN = 'xoxb-37206040724-wkMoGqvYabweh384xRYeeHiy';
 var GITHUB_API_URL  = 'https://api.github.com/';
 var WEATHER_API_URL = 'http://api.openweathermap.org/data/2.5/weather';
 var WEATHER_API_KEY = 'da10088df7a4a9b535842d280d0a05f1';
+var GIPHY_API_URL = 'http://api.giphy.com/v1/gifs/search';
+var GIPHY_API_KEY = 'dc6zaTOxFJmzC';
 
 'use strict';
 
@@ -40,6 +42,7 @@ function start(websocketServer) {
     then(function(controller) {
         configureGithub(controller, websocketServer);
         configureWeather(controller, websocketServer);
+        configureGiphy(controller, websocketServer);
     });
 }
 
@@ -55,13 +58,38 @@ function configureWeather(controller, websocketServer) {
             json: true
         })
         .then(function(weather) {
-            console.log(weather);
             var temperature = weather.main.temp;
-            var clouds = weather.clouds.all; 
-            console.log(temperature);
-            console.log(clouds);
-            var payload = {temp: temperature, clouds: clouds};
-            bot.reply(message, temperature + ' ' + clouds + '% clouds');
+            var condition = weather.weather[0].description;
+            var cityName = weather.name;
+            var mainCondition = weather.weather[0].main.toLowerCase();
+            var icon = (mainCondition === 'clear') 
+                ? 'sun-o' 
+                : (mainCondition === 'clouds') 
+                ? 'cloud' 
+                : (mainCondition === 'rain') 
+                ? 'tint'
+                : (mainCondition === 'extreme')
+                ? 'bolt'
+                : 'cloud';
+
+            //sun-o, bolt, tint, cloud
+            var payload = JSON.stringify({
+                type: 'weather',
+                data: {
+                    degree: temperature,
+                    location: cityName,
+                    condition: condition,
+                    icon: icon
+                },
+                col:'1',
+                row:'1',
+                sizex:'1',
+                sizey:'1'
+            });
+            websocketServer.clients.forEach(function(client) { 
+                client.send(payload);
+            });
+            bot.reply(message, 'Gotcha mate');
         });
     });
 }
@@ -90,20 +118,56 @@ function configureGithub(controller, websocketServer) {
                 res += '[' + commit.author.name + '] ' + commit.message;
                 res += '\n';
             });
-            websocketServer.clients.forEach(function(client) {
-                var payload = {
-                    type: 'text',
-                    data: {
-                        content: res
-                    },
-                    'col':'1',
-                    'row':'1',
-                    'sizex':'2',
-                    'sizey':'3'
-                }
-                client.send(JSON.stringify(payload));
+            var payload = JSON.stringify({
+                type: 'text',
+                data: {
+                    content: res
+                },
+                col:'1',
+                row:'1',
+                sizex:'2',
+                sizey:'3'
             });
-            bot.reply(message, res);
+
+            websocketServer.clients.forEach(function(client) {
+                client.send(payload);
+            });
+            bot.reply(message, 'Gotcha mate');
+        })
+        .catch(function(err) {
+            console.error(err);
+        });
+    });
+}
+
+function configureGiphy(controller, websocketServer) {
+    controller.hears('mood (\\w+)', 'direct_message,direct_mention,mention', function(bot, message) {
+        //TODO: Set based on input mood
+        var query = 'cat'
+        request({
+            uri: GIPHY_API_URL,
+            qs: {
+                q: query,
+                api_key: GIPHY_API_KEY
+            },
+            json: true
+        })
+        .then(function(giphs) {
+            var giphUrl = giphs.data[0].images.original.url;
+            var payload = JSON.stringify({
+                type: 'image',
+                data: {
+                    url: giphUrl
+                },
+                col:'1',
+                row:'1',
+                sizex:'2',
+                sizey:'3'
+            });
+            websocketServer.clients.forEach(function(client) {
+                client.send(payload);
+            });
+            bot.reply(message, 'Gotcha mate');
         })
         .catch(function(err) {
             console.error(err);
