@@ -21,6 +21,8 @@
   "homepage": "https://github.com/nikriek/dashbot#readme",
   "dependencies": {
     "ejs-locals": "^1.0.2",
-    "express": "^4.13.4"
+    "express": "^4.13.4",
+    "express-session": "^1.13.0",
+    "passport-slack": "0.0.6"
   }
 }

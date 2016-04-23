@@ -7,8 +7,17 @@
 
 'use strict';
 
+var passportSlack = require('./auth/slack');
+
 module.exports = {
     index: function(req, res) {
         res.render('index');
     }
+
+    authenticateSlack: passportSlack.authenticate('slack'),
+
+    authenticateSlackCallback: passportLinkedIn.authenticate('slack', { failureRedirect: '/' }),
+    function(req, res) {
+      res.json(req.user);
+    })
 }
