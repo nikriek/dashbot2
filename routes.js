@@ -45,6 +45,7 @@ module.exports = {
     authenticateSlack: passportSlack.authenticate('slack'),
 
     authenticateSlackCallback: passportSlack.authenticate('slack', { failureRedirect: '/' }, function(req, res) {
-            res.json(req.user);
+          console.log(req);
+          res.json(200, {});
     })
 }
