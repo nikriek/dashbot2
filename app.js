@@ -16,19 +16,19 @@ var session = require('express-session');
 var config = require('./config');
 var bodyParser = require('body-parser');
 var RedisStore = require('connect-redis')(session);
+var cookieParser = require('cookie-parser');
 
 var app = express();
 var server = require('http').createServer(app);
-var io = require('socket.io')(server);
+var WebSocketServer = require("ws").Server
 
 app.set('port', (process.env.PORT || 8080));
 
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.json());
-
+app.use(cookieParser(config.secret));
 app.use(session({
   store: new RedisStore({url: config.redis.url}),
-  secret: config.secret,
   resave: true,
   saveUninitialized: true
 }));
@@ -46,11 +46,23 @@ app.get('/dashboards/:dashboardId', routes.show);
 app.get('/auth/slack', routes.authenticateSlack);
 app.get('/auth/slack/callback', routes.authenticateSlackCallback);
 
-io.on('connection', function(){
-  console.log('WS on')
- });
-
-
 server.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
 });
+
+var wss = new WebSocketServer({server: server})
+console.log("websocket server created")
+
+wss.on("connection", function(ws) {
+  cookieParser(ws.upgradeReq, null, function(err) {
+    var sessionID = ws.upgradeReq.signedCookies['connect.sid'];
+    sessionStore.get(sessionID, function(err, sess) {
+      console.log(sess);
+    });
+  })
+
+  ws.on("close", function() {
+    console.log("websocket connection close")
+    clearInterval(id)
+  })
+})
