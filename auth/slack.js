@@ -7,9 +7,16 @@ passport.use(new SlackStrategy({
         clientID: config.slack.clientID,
         clientSecret: config.slack.clientSecret,
         callbackURL: config.slack.redirectUri,
-        scope: 'identify channels:read chat:write:bot users:read'
+        scope: 'identify channels:read chat:write:bot users:read channels:history'
     }, function(accessToken, refreshToken, profile, done) {
-        done(null, profile);
+        var user = User()
+        user.accessToken = accessToken;
+        user.slackUserId = profile.id;
+        user.displayName = profile.displayName;
+        user.provider = profile.provider;
+        user.save(function(err) {
+          done(null, user);
+        });
     })
 );
 
@@ -18,7 +25,7 @@ passport.serializeUser(function(user, done) {
 });
 
 passport.deserializeUser(function(id, done) {
-  User.findOne({'slackUserId': id}, function(err, user) {
+  User.findById(id, function(err, user) {
     done(err, user);
   });
 });

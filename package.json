@@ -22,6 +22,7 @@
   "dependencies": {
     "bluebird": "^3.3.5",
     "body-parser": "^1.15.0",
+    "botkit": "^0.1.1",
     "connect-redis": "^3.0.2",
     "cookie-parser": "^1.4.1",
     "ejs-locals": "^1.0.2",
@@ -33,6 +34,8 @@
     "passport": "0.3.2",
     "passport-slack": "0.0.6",
     "redis": "^2.5.3",
+    "request-promise": "^3.0.0",
+    "slack-client": "^2.0.4",
     "ws": "^1.1.0"
   }
 }

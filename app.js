@@ -2,7 +2,7 @@
 * @Author: Dat Dev
 * @Date:   2016-04-23 13:29:58
 * @Last Modified by:   Stefan Wirth
-* @Last Modified time: 2016-04-23 15:21:12
+* @Last Modified time: 2016-04-23 21:18:55
 */
 
 'use strict';
@@ -16,20 +16,21 @@ var session = require('express-session');
 var config = require('./config');
 var bodyParser = require('body-parser');
 var RedisStore = require('connect-redis')(session);
-var cookieParser = require('cookie-parser');
+var bot = require('./bot/index');
 
 var app = express();
 var server = require('http').createServer(app);
-var WebSocketServer = require("ws").Server
+var websocket = require('./WebSocketService')(server);
 
 app.set('port', (process.env.PORT || 8080));
 
 app.use(express.static(__dirname + '/client'));
 app.use(bodyParser.json());
-app.use(cookieParser(config.secret));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(session({
   store: new RedisStore({url: config.redis.url}),
   resave: true,
+  secret: config.secret,
   saveUninitialized: true
 }));
 app.use(passport.initialize());
@@ -48,21 +49,5 @@ app.get('/auth/slack/callback', routes.authenticateSlackCallback);
 
 server.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
+  bot.start(websocket);
 });
-
-var wss = new WebSocketServer({server: server})
-console.log("websocket server created")
-
-wss.on("connection", function(ws) {
-  cookieParser(ws.upgradeReq, null, function(err) {
-    var sessionID = ws.upgradeReq.signedCookies['connect.sid'];
-    sessionStore.get(sessionID, function(err, sess) {
-      console.log(sess);
-    });
-  })
-
-  ws.on("close", function() {
-    console.log("websocket connection close")
-    clearInterval(id)
-  })
-})

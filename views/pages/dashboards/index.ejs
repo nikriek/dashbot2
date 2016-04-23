@@ -1,5 +1,10 @@
 <% layout('../../layout') %>
 <h1>New dashboard</h1>
 <form method="POST" action="/dashboards">
+  <select name="channel">
+    <% channels.forEach(function(channel) { %>
+      <option value="<%=channel.id %>"><%=channel.name%></option>
+    <% }) %>
+  </select>
   <input type="submit" value="Submit">
 </form>
