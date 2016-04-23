@@ -1,6 +1,7 @@
 var passport = require('passport');
 var SlackStrategy = require('passport-slack').Strategy;
 var config = require('../config');
+var User = require('../db').User;
 
 passport.use(new SlackStrategy({
         clientID: config.slack.clientID,
@@ -13,11 +14,13 @@ passport.use(new SlackStrategy({
 );
 
 passport.serializeUser(function(user, done) {
-  done(null, user);
+  done(null, user.id);
 });
 
 passport.deserializeUser(function(id, done) {
-  done(null, id);
+  User.findOne({'slackUserId': id}, function(err, user) {
+    done(err, user);
+  });
 });
 
 module.exports = passport;
