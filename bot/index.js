@@ -2,7 +2,7 @@
 * @Author: Dat Dev
 * @Date:   2016-04-23 16:10:10
 * @Last Modified by:   Stefan Wirth
-* @Last Modified time: 2016-04-24 07:23:52
+* @Last Modified time: 2016-04-24 07:39:18
 */
 
 var Promise = require('bluebird');
@@ -552,7 +552,7 @@ function configureYodaify(controller, websocketServer) {
             websocketServer.clients.forEach(function(client) {
                 client.send(payload);
             });
-            bot.reply(message, yodaQuote);
+            bot.reply(message, getReply());
         }); 
     });
 }
