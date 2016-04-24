@@ -2,7 +2,7 @@
 * @Author: Dat Dev
 * @Date:   2016-04-23 16:10:10
 * @Last Modified by:   Stefan Wirth
-* @Last Modified time: 2016-04-24 07:13:10
+* @Last Modified time: 2016-04-24 07:20:35
 */
 
 var Promise = require('bluebird');
@@ -539,8 +539,7 @@ function configureYodaify(controller, websocketServer) {
                 type: 'yodaquote',
                 data: {
                     content: {
-                        quote: yodaQuote,
-                        author: 'yoda'
+                        quote: {quote: yodaQuote, author: 'yoda'},
                     }
                 },
                 col:'1',
