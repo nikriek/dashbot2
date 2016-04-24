@@ -21,12 +21,12 @@ module.exports = {
     index: function(req, res) {
         var accessToken = req.user.accessToken;
         var slackClient = new SlackWebClient(accessToken);
-        slackClient.channels.list(function(err, channels) {
-          res.render('pages/dashboards/index', {channels: channels.channels});
+        slackClient.groups.list(function(err, groups) {
+          res.render('pages/dashboards/index', {groups: groups.groups});
         });
     },
     create: function(req, res) {
-        var channelId = req.body.channel;
+        var channelId = req.body.group;
         var accessToken = req.user.accessToken;
         var slackClient = new SlackWebClient(accessToken);
         var dashboard = new Dashboard();
@@ -38,7 +38,6 @@ module.exports = {
     },
     show: function(req, res) {
         var dashboardId = req.params.dashboardId;
-        console.log(dashboardId);
         Dashboard.findById(dashboardId, function(err, dashboard) {
           res.render('pages/dashboards/show', {dashboardId: dashboard.id});
         });
