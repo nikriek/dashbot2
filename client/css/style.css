@@ -74,6 +74,7 @@ body {
 .widget {
     padding:10px;
     box-sizing: border-box;
+    overflow:auto;
 }
 
 .widget iframe{
@@ -131,6 +132,38 @@ body {
     padding:10px;
     background:#222;
     box-sizing: border-box;
+}
+
+
+
+.widget ul {
+    list-style-type: none;
+    padding:0px;
+    float:left;
+    width:100%;
+}
+
+.widget ul li {
+    padding:10px 0px;
+    float:left;
+    width:100%;
+    color:#fff;
+}
+
+.widget ul li + li {
+    border-top:1px solid #999;
+}
+
+
+.widget table td {
+    list-style-type: none;
+    padding:10px 0px;
+    float:left;
+    width:100%;
+}
+
+.widget table tr + tr td {
+    border-top:1px solid #999;
 }
 
 
