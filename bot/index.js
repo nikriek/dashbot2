@@ -2,7 +2,7 @@
 * @Author: Dat Dev
 * @Date:   2016-04-23 16:10:10
 * @Last Modified by:   Stefan Wirth
-* @Last Modified time: 2016-04-24 07:20:35
+* @Last Modified time: 2016-04-24 07:23:52
 */
 
 var Promise = require('bluebird');
@@ -521,7 +521,7 @@ function configureGitBlame(controller, websocketServer) {
 }
 
 function configureYodaify(controller, websocketServer) {
-    controller.hears('yodaquote', 'direct_message,direct_mention,mention', function(bot, message) {
+    controller.hears('yoda', 'direct_message,direct_mention,mention', function(bot, message) {
         request({
             uri: 'http://quotes.stormconsultancy.co.uk/random.json',
             json: true
@@ -541,7 +541,7 @@ function configureYodaify(controller, websocketServer) {
                 type: 'yodaquote',
                 data: {
                     content: {
-                        quote: {quote: yodaQuote, author: 'yoda'},
+                        quote: yodaQuote, author: 'yoda',
                     }
                 },
                 col:'1',
