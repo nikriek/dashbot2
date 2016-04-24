@@ -13,9 +13,23 @@ var Widget = React.createClass({
 							</tr>;
 				});
 				html = <table>
+						<tbody>
 						{commits}
+						</tbody>
 					</table>;
 			break;
+
+			case 'hackernews':
+			case 'list':
+				var entries = this.props.data.content.map(function(entry) {
+					return <li>{entry}</li>;
+				});
+
+				html = <ul>
+						{entries}
+					</ul>;
+			break;
+
 			case 'text':
 				html = this.props.data.content;
 				break;
