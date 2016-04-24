@@ -2,7 +2,7 @@
 * @Author: Dat Dev
 * @Date:   2016-04-23 16:10:10
 * @Last Modified by:   Stefan Wirth
-* @Last Modified time: 2016-04-24 01:43:16
+* @Last Modified time: 2016-04-24 01:49:00
 */
 
 var Promise = require('bluebird');
@@ -191,7 +191,7 @@ function configureGoogleMaps(controller, websocketServer) {
             client.send(payload);
         });
 
-        bot.reply(message, 'Gotcha mate');
+        bot.reply(message, getReply());
     });
 }
 
@@ -220,8 +220,8 @@ function configureGiphy(controller, websocketServer) {
                 },
                 col:'1',
                 row:'1',
-                sizex:'2',
-                sizey:'3'
+                sizex:'1',
+                sizey:'2'
             });
             websocketServer.clients.forEach(function(client) {
                 client.send(payload);
