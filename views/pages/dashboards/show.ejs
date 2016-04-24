@@ -1,6 +1,6 @@
 <% layout('../../layout') %>
 <script type="text/javascript">
-var ws = new WebSocket(<%= websocket_url %>);
+var ws = new WebSocket("<%= websocket_url %>");
 ws.onopen = function()
 {
   // Web Socket is connected, send data using send()
