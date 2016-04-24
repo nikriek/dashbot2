@@ -10,10 +10,14 @@ ws.onopen = function()
 ws.onmessage = function (evt)
 {
   var received_msg = JSON.parse(evt.data);
-    console.log(received_msg);
   var widgets = window.widgets.state.widgets;
-  console.log(widgets);
-  widgets[received_msg.type] = received_msg;
+
+  if(received_msg.action == 'remove') {
+  	delete widgets[received_msg.type];
+  } else {
+  	widgets[received_msg.type] = received_msg;
+  }
+
   window.widgets.onUpdate(widgets)
 };
 </script>

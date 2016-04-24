@@ -341,4 +341,19 @@ function configureQuotes(controller, websocketServer) {
 }
 
 
+function configureCloseWidget(controller, websocketServer) {
+    controller.hears('close (\\w+)', 'direct_message,direct_mention,mention', function(bot, message) {
+        var payload = JSON.stringify({
+            action: 'remove',
+            type: message.match[1]
+        });
+        websocketServer.clients.forEach(function(client) {
+            client.send(payload);
+        });
+        bot.reply(message, getReply());
+    })
+
+}
+
+
 
