@@ -152,11 +152,11 @@ function configureGithubCommitsList(controller, websocketServer) {
             var payload = JSON.stringify({
                 type: 'commits',
                 data: {
-                    content: repository.slice(0,9)
+                    content: repository.slice(0,10)
                 },
                 col:'1',
                 row:'1',
-                sizex:'4',
+                sizex:'3',
                 sizey:'2'
             });
 
