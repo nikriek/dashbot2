@@ -74,8 +74,6 @@ var Widget = React.createClass({
 				html = <div className="text-center">
 					<img src={this.props.data.content.avatar_url} />
 					<p className="top20"><b>{this.props.data.content.login}</b></p>
-					<p className="huge-text top20">{this.props.content.total}</p>
-					<p className="top20">Commits</p>
 				</div>
 				break;
 
