@@ -74,7 +74,8 @@ body {
 .widget {
     padding:10px;
     box-sizing: border-box;
-    overflow:auto;
+    overflow-x:hidden;
+    overflow-y:auto;
 }
 
 .widget iframe{
@@ -158,8 +159,6 @@ body {
 .widget table td {
     list-style-type: none;
     padding:10px 0px;
-    float:left;
-    width:100%;
 }
 
 .widget table tr + tr td {
