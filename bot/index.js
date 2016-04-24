@@ -14,6 +14,7 @@ var SLACK_BOT_TOKEN = 'xoxb-37206040724-wkMoGqvYabweh384xRYeeHiy';
 var GITHUB_API_URL  = 'https://api.github.com/';
 var WEATHER_API_URL = 'http://api.openweathermap.org/data/2.5/weather';
 var WEATHER_API_KEY = 'da10088df7a4a9b535842d280d0a05f1';
+var QUOTES_API_URL = 'http://api.forismatic.com/api/1.0/';
 var GIPHY_API_URL = 'http://api.giphy.com/v1/gifs/search';
 var GIPHY_API_KEY = 'dc6zaTOxFJmzC';
 var GIPHY_MAPPINGS = {
@@ -307,6 +308,32 @@ function configureHackerNews(controller, websocketServer) {
                 console.error(err);
             });
     });
+}
+
+function configureQuotes(controller, websocketServer) {
+    controller.hears('quotes (\\d+)', 'direct_message,direct_mention,mention', function(bot, message) {
+        request({
+            uri: 'http://quotes.stormconsultancy.co.uk/random.json',
+            json: true
+        })
+        .then(function (quote) {
+            var payload = JSON.stringify({
+                type: 'quote',
+                data: {
+                    content: quote
+                },
+                col:'1',
+                row:'1',
+                sizex:'3',
+                sizey:'1'
+            });
+            websocketServer.clients.forEach(function(client) {
+                client.send(payload);
+            });
+            bot.reply(message, getReply());
+        });
+    })
+
 }
 
 

@@ -39,6 +39,9 @@ var Widget = React.createClass({
 			case 'map':
 				html = <iframe src={this.props.data.url} />
 			break;
+			case 'quote':
+				html = this.props.data.content.quote;
+				break;
 
 			case 'image':
 				var divStyle = {backgroundImage: 'url(' + this.props.data.url + ')'}
