@@ -63,9 +63,9 @@ var Widget = React.createClass({
 			case 'topCommiter':
 				html = <div className="text-center">
 							<img src={this.props.data.user.avatar_url} />
-							<p><b>{this.props.data.user.login}</b></p>
+							<p className="top20"><b>{this.props.data.user.login}</b></p>
 							<p className="huge-text top20">{this.props.data.total}</p>
-							<p>Commits</p>
+							<p className="top20">Commits</p>
 						</div>
 				break;
 
