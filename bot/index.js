@@ -499,7 +499,9 @@ function configureGitBlame(controller, websocketServer) {
                 var payload = JSON.stringify({
                     type: 'blame',
                     data: {
-                        content: blamee[0]
+                        content: blamee.find(function (event) {
+                            return event.type == "PushEvent";
+                        })
                     },
                     col:'1',
                     row:'1',
