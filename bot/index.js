@@ -53,7 +53,7 @@ function start(websocketServer) {
     connect().
     then(function(controller) {
         configureGithubCommitsList(controller, websocketServer);
-        //configureGithubCommitersList(controller, websocketServer);
+        configureGithubCommitersList(controller, websocketServer);
         configureGithubTopCommiter(controller, websocketServer);
         configureWeather(controller, websocketServer);
         configureGoogleMaps(controller, websocketServer);
@@ -195,6 +195,43 @@ function configureGithubTopCommiter(controller, websocketServer) {
                 col:'1',
                 row:'1',
                 sizex:'1',
+                sizey:'2'
+            });
+
+            websocketServer.clients.forEach(function(client) {
+                client.send(payload);
+            });
+            bot.reply(message, getReply());
+        })
+        .catch(function(err) {
+            console.error(err);
+        });
+    });
+}
+
+
+
+function configureGithubCommitersList(controller, websocketServer) {
+    controller.hears('commiters (\\w+) (\\w+)','direct_message,direct_mention,mention', function(bot, message) {
+        request({
+            uri: 'https://api.github.com/repos/' + message.match[1] + '/' +  message.match[2] + '/stats/contributors',
+            headers: {'User-Agent' : 'herbert'},
+            json: true
+        })
+        .then(function(stats) {
+            commiters = []
+            stats.forEach(function(commiter){
+                commiters.push('[' + commiter.total + ']' + commiter.author.login);
+            });
+
+            var payload = JSON.stringify({
+                type: 'commiters',
+                data: {
+                    content: commiters
+                },
+                col:'1',
+                row:'1',
+                sizex:'2',
                 sizey:'2'
             });
 
