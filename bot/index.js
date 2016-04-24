@@ -53,8 +53,8 @@ function start(websocketServer) {
     connect().
     then(function(controller) {
         configureGithubCommitsList(controller, websocketServer);
-        configureGithubCommitersList(controller, websocketServer);
-        configureGithubTopCommiter(controller, websocketServer);
+        configureGithubCommittersList(controller, websocketServer);
+        configureGithubTopCommitter(controller, websocketServer);
         configureWeather(controller, websocketServer);
         configureGoogleMaps(controller, websocketServer);
         configureGiphy(controller, websocketServer);
@@ -168,29 +168,29 @@ function configureGithubCommitsList(controller, websocketServer) {
     });
 }
 
-function configureGithubTopCommiter(controller, websocketServer) {
-    controller.hears('top-commiter (\\w+) (\\w+)','direct_message,direct_mention,mention', function(bot, message) {
+function configureGithubTopCommitter(controller, websocketServer) {
+    controller.hears('top-committer (\\w+) (\\w+)','direct_message,direct_mention,mention', function(bot, message) {
         request({
             uri: 'https://api.github.com/repos/' + message.match[1] + '/' +  message.match[2] + '/stats/contributors',
             headers: {'User-Agent' : 'herbert'},
             json: true
         })
         .then(function(stats) {
-            topCommiter = {}
+            topCommitter = {}
             total = 0;
-            stats.forEach(function(commiter){
-                if(commiter.total < total) return;
-                topCommiter = commiter;
-                total = commiter.total;
+            stats.forEach(function(committer){
+                if(committer.total < total) return;
+                topCommitter = committer;
+                total = committer.total;
             });
 
             if(total === 0) return;
 
             var payload = JSON.stringify({
-                type: 'topCommiter',
+                type: 'topCommitter',
                 data: {
-                    user: topCommiter.author,
-                    total: topCommiter.total
+                    user: topCommitter.author,
+                    total: topCommitter.total
                 },
                 col:'1',
                 row:'1',
@@ -211,23 +211,24 @@ function configureGithubTopCommiter(controller, websocketServer) {
 
 
 
-function configureGithubCommitersList(controller, websocketServer) {
-    controller.hears('commiters (\\w+) (\\w+)','direct_message,direct_mention,mention', function(bot, message) {
+function configureGithubCommittersList(controller, websocketServer) {
+    controller.hears('committers (\\w+) (\\w+)','direct_message,direct_mention,mention', function(bot, message) {
         request({
             uri: 'https://api.github.com/repos/' + message.match[1] + '/' +  message.match[2] + '/stats/contributors',
             headers: {'User-Agent' : 'herbert'},
             json: true
         })
         .then(function(stats) {
-            commiters = []
-            stats.forEach(function(commiter){
-                commiters.push('[' + commiter.total + '] ' + commiter.author.login);
+            committers = []
+            stats.forEach(function(committer){
+                committers.push('[' + committer.total + '] ' + committer.author.login);
             });
+            committers.reverse();
 
             var payload = JSON.stringify({
-                type: 'commiters',
+                type: 'committers',
                 data: {
-                    content: commiters
+                    content: committers
                 },
                 col:'1',
                 row:'1',

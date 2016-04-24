@@ -21,7 +21,7 @@ var Widget = React.createClass({
 
 			case 'hackernews':
 			case 'producthunt':
-			case 'commiters':
+			case 'committers':
 			case 'list':
 				var entries = this.props.data.content.map(function(entry) {
 					return <div className="list-entry">{entry}</div>;
@@ -42,6 +42,7 @@ var Widget = React.createClass({
 				html = <iframe src={this.props.data.url} />
 				break;
 			case 'quote':
+			case 'quote':
 				html = <p><b>{this.props.data.content.quote + "  "}</b><br/><i>- {this.props.data.content.author}</i></p>;
 				break;
 
@@ -60,7 +61,7 @@ var Widget = React.createClass({
 						</div>
 				break;
 
-			case 'topCommiter':
+			case 'topCommitter':
 				html = <div className="text-center">
 							<img src={this.props.data.user.avatar_url} />
 							<p className="top20"><b>{this.props.data.user.login}</b></p>
