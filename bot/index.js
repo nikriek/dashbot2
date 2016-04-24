@@ -64,6 +64,7 @@ function start(websocketServer) {
         configureProductHunt(controller, websocketServer);
         configureQuotes(controller, websocketServer);
         configureCloseWidget(controller, websocketServer);
+        configureGitBlame(controller, websocketServer);
     });
 }
 
@@ -483,5 +484,34 @@ function configureCloseWidget(controller, websocketServer) {
 
 }
 
+function configureGitBlame(controller, websocketServer) {
+    controller.hears('blame (\\w+)','direct_message,direct_mention,mention', function(bot, message) {
+        request({
+            uri: 'https://api.github.com/users/' + message.match[1],
+            headers: {'User-Agent' : 'herbert'},
+            json: true
+        })
+            .then(function(blamee) {
+                var payload = JSON.stringify({
+                    type: 'blamee',
+                    data: {
+                        content: blamee
+                    },
+                    col:'1',
+                    row:'1',
+                    sizex:'1',
+                    sizey:'2'
+                });
+
+                websocketServer.clients.forEach(function(client) {
+                    client.send(payload);
+                });
+                bot.reply(message, getReply());
+            })
+            .catch(function(err) {
+                console.error(err);
+            });
+    });
+}
 
 
