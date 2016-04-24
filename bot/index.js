@@ -57,6 +57,7 @@ function start(websocketServer) {
         configureYoutube(controller, websocketServer);
         configureTwitch(controller, websocketServer);
         configureHackerNews(controller, websocketServer);
+        configureQuotes(controller, websocketServer);
     });
 }
 
