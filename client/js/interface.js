@@ -111,7 +111,7 @@ var Grid = React.createClass({
 					'row':'1',
 					'sizex':'1',
 					'sizey':'1'
-				}
+				},
 				'map': {
 					'type':'map',
 					'data': {
