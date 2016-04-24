@@ -75,7 +75,7 @@ var Widget = React.createClass({
 					<img src={this.props.data.content.actor.avatar_url} />
 					<p className="top20"><b>{this.props.data.content.actor.login}</b></p>
 					<p><b>Last Commit-Message:<br/></b></p>
-					<p>this.props.data.content.payload.commits[0].message</p>
+					<p>{this.props.data.content.payload.commits[0].message}</p>
 				</div>
 				break;
 
