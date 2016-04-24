@@ -72,6 +72,7 @@ var Widget = React.createClass({
 
 			case 'blame':
 				html = <div className="text-center">
+					<p><b>WANTED</b></p>
 					<img src={this.props.data.content.actor.avatar_url} />
 					<p className="top20"><b>{this.props.data.content.actor.login}</b></p>
 					<p><b>Last Commit-Message:<br/></b></p>
