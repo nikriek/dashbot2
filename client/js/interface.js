@@ -40,7 +40,6 @@ var Widget = React.createClass({
 				html = <iframe src={this.props.data.url} />
 			break;
 			case 'quote':
-				console.log(this.props.data.content.quote);
 				html = this.props.data.content.quote;
 				break;
 

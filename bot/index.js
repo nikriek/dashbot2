@@ -332,6 +332,8 @@ function configureQuotes(controller, websocketServer) {
                 client.send(payload);
             });
             bot.reply(message, getReply());
+        }).catch(function (err) {
+            console.error(err);
         });
     })
 
