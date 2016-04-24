@@ -7,7 +7,7 @@ passport.use(new SlackStrategy({
         clientID: config.slack.clientID,
         clientSecret: config.slack.clientSecret,
         callbackURL: config.slack.redirectUri,
-        scope: 'identify channels:read channels:write chat:write:bot chat:write:user users:read channels:history groups:write groups:history groups:read'
+        scope: 'bot identify channels:read channels:write chat:write:bot channels:read chat:write:user users:read channels:history groups:write groups:history groups:read'
     }, function(accessToken, refreshToken, profile, done) {
         var user = User()
         user.accessToken = accessToken;

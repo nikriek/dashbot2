@@ -31,7 +31,7 @@ var Widget = React.createClass({
 						{entries}
 					</div>;
 				break;
-
+			case 'github':
 			case 'text':
 				html = <p>{this.props.data.content}</p>;
 				break;
@@ -134,7 +134,7 @@ var Grid = React.createClass({
 					'sizex':'1',
 					'sizey':'1'
 				},
-				
+
 				'mood': {
 					'type':'mood',
 					'data': {
@@ -168,7 +168,7 @@ var Grid = React.createClass({
 	      	}).data('gridster');
 
 	      	this.setState({
-	      		gridster: gridster, 
+	      		gridster: gridster,
 	      		updateGrid: false
 	      	});
 	    }
