@@ -2,7 +2,7 @@
 * @Author: Dat Dev
 * @Date:   2016-04-23 16:10:10
 * @Last Modified by:   Stefan Wirth
-* @Last Modified time: 2016-04-24 00:55:05
+* @Last Modified time: 2016-04-24 01:13:41
 */
 
 var Promise = require('bluebird');
@@ -21,6 +21,7 @@ var GIPHY_MAPPINGS = {
     fu: 'fuck you',
     lol: 'lol'
 };
+var MAPS_API_KEY = 'AIzaSyBc3vureyEIaTU0sDerZpa5Wd0zgChLtCk';
 var YOUTUBE_API = 'https://www.googleapis.com/youtube/v3/search';
 
 'use strict';
@@ -170,7 +171,9 @@ function configureGoogleMaps(controller, websocketServer) {
         var url  = 'https://www.google.com/maps/embed/v1/directions?origin='
             + encodeURIComponent(from)
             + '&destination='
-            + encodeURIComponent(to);
+            + encodeURIComponent(to)
+            + '&key='
+            + MAPS_API_KEY;
 
         var payload = JSON.stringify({
             type: 'map',
@@ -245,7 +248,6 @@ function configureYoutube(controller, websocketServer) {
         })
         .then(function(videos) {
             var videoId = videos.items[0].id.videoId;
-            console.log( videos.items[0]);
             var payload = JSON.stringify({
                 type: 'youtube',
                 data: {
