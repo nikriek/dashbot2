@@ -2,13 +2,15 @@
 * @Author: Dat Dev
 * @Date:   2016-04-23 16:10:10
 * @Last Modified by:   Stefan Wirth
-* @Last Modified time: 2016-04-24 03:42:12
+* @Last Modified time: 2016-04-24 04:12:46
 */
 
 var Promise = require('bluebird');
 var Botkit = require('botkit');
 var request = require('request-promise');
 var hackerNewsService = require('../service/hackerNewsService');
+var productHuntService = require('../service/productHuntService');
+
 //TODO: Use token of app
 var SLACK_BOT_TOKEN = 'xoxb-37206040724-wkMoGqvYabweh384xRYeeHiy';
 var GITHUB_API_URL  = 'https://api.github.com/';
@@ -57,6 +59,7 @@ function start(websocketServer) {
         configureYoutube(controller, websocketServer);
         configureTwitch(controller, websocketServer);
         configureHackerNews(controller, websocketServer);
+        configureProductHunt(controller, websocketServer);
         configureQuotes(controller, websocketServer);
         configureCloseWidget(controller, websocketServer);
     });
@@ -305,6 +308,33 @@ function configureHackerNews(controller, websocketServer) {
                 websocketServer.clients.forEach(function(client) {
                     client.send(payload);
                 });
+                bot.reply(message, getReply());
+            }).catch(function(err) {
+                console.error(err);
+            });
+    });
+}
+
+function configureProductHunt(controller, websocketServer) {
+    controller.hears('ph', 'direct_message,direct_mention,mention', function(bot, message) {
+        var numberOfStories = message.match[1];
+        productHuntService.productHunt()
+            .then(function(stories) {
+                var payload = JSON.stringify({
+                    type: 'producthunt',
+                    data: {
+                        content: stories.split('\n')
+                    },
+                    col:'1',
+                    row:'1',
+                    sizex:'3',
+                    sizey:'2'
+                });
+
+                websocketServer.clients.forEach(function(client) {
+                    client.send(payload);
+                });
+
                 bot.reply(message, getReply());
             }).catch(function(err) {
                 console.error(err);
