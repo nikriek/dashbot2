@@ -13,7 +13,9 @@ var Widget = React.createClass({
 							</tr>;
 				});
 				html = <table>
+						<tbody>
 						{commits}
+						</tbody>
 					</table>;
 			break;
 			case 'text':
