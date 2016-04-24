@@ -272,7 +272,7 @@ function configureYoutube(controller, websocketServer) {
 
 function configureYoutube(controller, websocketServer) {
     controller.hears('youtube (\\w+)', 'direct_message,direct_mention,mention', function(bot, message) {
-        channel = message.match[1]
+        var channel = message.match[1];
         var payload = JSON.stringify({
             type: 'twitch',
             data: {
