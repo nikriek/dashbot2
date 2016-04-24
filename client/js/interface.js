@@ -94,7 +94,7 @@ var Grid = React.createClass({
 				'text': {
 					'type':'text',
 					'data': {
-						'content':''
+						'content':'HackSussex 2016'
 					},
 					'col':'1',
 					'row':'1',
