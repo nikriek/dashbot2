@@ -78,6 +78,10 @@ body {
     overflow-y:auto;
 }
 
+.widget * {
+    max-width:100%;
+}
+
 .widget iframe{
     width:100%;
     height:100%;
