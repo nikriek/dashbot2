@@ -9,7 +9,7 @@ var Widget = React.createClass({
 				var commits = this.props.data.content.map(function(commit) {
 					var commit = commit.commit;
 					return <tr>
-								<td>{commit.author.name}</td><td>{commit.message}</td>
+								<td>{commit.author.name}:</td><td>{commit.message}</td>
 							</tr>;
 				});
 				html = <table>
@@ -72,6 +72,7 @@ var Widget = React.createClass({
 
 			case 'blame':
 				html = <div className="text-center">
+					<p><b>WANTED</b></p>
 					<img src={this.props.data.content.actor.avatar_url} />
 					<p className="top20"><b>{this.props.data.content.actor.login}</b></p>
 					<p><b>Last Commit-Message:<br/></b></p>
@@ -157,8 +158,8 @@ var Grid = React.createClass({
 			var gridster = $("ul").gridster({
 	      		widget_base_dimensions: [200, 200],
 	      		widget_margins: [10, 10],
-	      		max_cols: 5,
-	      		min_cols: 5,
+	      		max_cols: 6,
+	      		min_cols: 6,
 	      		min_rows: 5,
 	      		max_rows: 5,
 	      		resize: {

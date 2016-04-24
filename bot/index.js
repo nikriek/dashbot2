@@ -2,7 +2,7 @@
 * @Author: Dat Dev
 * @Date:   2016-04-23 16:10:10
 * @Last Modified by:   Stefan Wirth
-* @Last Modified time: 2016-04-24 07:13:10
+* @Last Modified time: 2016-04-24 08:09:44
 */
 
 var Promise = require('bluebird');
@@ -160,31 +160,21 @@ function configureWeather(controller, websocketServer) {
 }
 
 function configureGithubCommitsList(controller, websocketServer) {
-    controller.hears('commits (\\w+)','direct_message,direct_mention,mention', function(bot, message) {
+    controller.hears('commits (\\w+) (\\w+)','direct_message,direct_mention,mention', function(bot, message) {
         request({
-            uri: GITHUB_API_URL + 'search/repositories',
-            qs: {q: message.match[1]},
+            uri: 'https://api.github.com/repos/' + message.match[1] + '/' +  message.match[2] + '/commits',
             headers: {'User-Agent' : 'herbert'},
             json: true
         })
-        .then(function(repositories) {
-            var repositoryId = repositories.items[0].id;
-            return request({
-                uri: GITHUB_API_URL + 'repositories/' + repositoryId + '/commits',
-                qs: {per_page: 10},
-                headers: {'User-Agent' : 'herbert'},
-                json: true
-            })
-        })
-        .then(function(commits) {
+        .then(function(repository) {
             var payload = JSON.stringify({
                 type: 'commits',
                 data: {
-                    content: commits
+                    content: repository.slice(0,9)
                 },
                 col:'1',
                 row:'1',
-                sizex:'4',
+                sizex:'3',
                 sizey:'2'
             });
 
@@ -208,8 +198,8 @@ function configureGithubTopCommitter(controller, websocketServer) {
             json: true
         })
         .then(function(stats) {
-            topCommitter = {}
-            total = 0;
+            var topCommitter = {};
+            var total = 0;
             stats.forEach(function(committer){
                 if(committer.total < total) return;
                 topCommitter = committer;
@@ -252,7 +242,7 @@ function configureGithubCommittersList(controller, websocketServer) {
             json: true
         })
         .then(function(stats) {
-            committers = []
+            var committers = []
             stats.forEach(function(committer){
                 committers.push('[' + committer.total + '] ' + committer.author.login);
             });
@@ -411,7 +401,7 @@ function configureTwitch(controller, websocketServer) {
 function configureHackerNews(controller, websocketServer) {
     controller.hears('hn (\\d+)', 'direct_message,direct_mention,mention', function(bot, message) {
         var numberOfStories = message.match[1];
-        hackerNewsService.hackerNews(numberOfStories || 30)
+        hackerNewsService.hackerNews({numberOfStories: parseInt(numberOfStories) || 30})
             .then(function(stories) {
                 var payload = JSON.stringify({
                     type: 'hackernews',
@@ -517,7 +507,9 @@ function configureGitBlame(controller, websocketServer) {
                 var payload = JSON.stringify({
                     type: 'blame',
                     data: {
-                        content: blamee[0]
+                        content: blamee.find(function (event) {
+                            return event.type == "PushEvent";
+                        })
                     },
                     col:'1',
                     row:'1',
@@ -537,7 +529,7 @@ function configureGitBlame(controller, websocketServer) {
 }
 
 function configureYodaify(controller, websocketServer) {
-    controller.hears('yodaquote', 'direct_message,direct_mention,mention', function(bot, message) {
+    controller.hears('yoda', 'direct_message,direct_mention,mention', function(bot, message) {
         request({
             uri: 'http://quotes.stormconsultancy.co.uk/random.json',
             json: true
@@ -557,8 +549,7 @@ function configureYodaify(controller, websocketServer) {
                 type: 'yodaquote',
                 data: {
                     content: {
-                        quote: yodaQuote,
-                        author: 'yoda'
+                        quote: yodaQuote, author: 'yoda',
                     }
                 },
                 col:'1',
@@ -569,7 +560,7 @@ function configureYodaify(controller, websocketServer) {
             websocketServer.clients.forEach(function(client) {
                 client.send(payload);
             });
-            bot.reply(message, yodaQuote);
+            bot.reply(message, getReply());
         }); 
     });
 }
