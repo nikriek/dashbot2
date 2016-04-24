@@ -40,7 +40,11 @@ module.exports = {
     show: function(req, res) {
         var dashboardId = req.params.dashboardId;
         Dashboard.findById(dashboardId, function(err, dashboard) {
-          res.render('pages/dashboards/show', {dashboardId: dashboard.id, websocket_url: config.websocket.url});
+          if (err) {
+            res.redirect("/");
+          } else {
+            res.render('pages/dashboards/show', {dashboardId: dashboard.id, websocket_url: config.websocket.url});
+          }
         });
         /*var history = slackClient.channels.history(channelId, {count: 50}, function(err, history) {
           res.redirect('/dashboards/' + dashboardId);
