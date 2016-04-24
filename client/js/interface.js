@@ -140,7 +140,10 @@ var Grid = React.createClass({
 	          }
 	      	}).data('gridster');
 
-	      	this.setState({gridster: gridster, updateGrid: false});
+	      	this.setState({
+	      		gridster: gridster, 
+	      		updateGrid: false
+	      	});
 	    }
 	},
 	render: function() {

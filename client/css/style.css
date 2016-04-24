@@ -76,6 +76,7 @@ body {
     box-sizing: border-box;
     overflow-x:hidden;
     overflow-y:auto;
+    pointer-events: none;
 }
 
 .widget iframe{
@@ -85,6 +86,7 @@ body {
     top:10px;
     left:0px;
     border:0px;
+    pointer-events: none;
 }
 
 .widget.widget-image .image {
