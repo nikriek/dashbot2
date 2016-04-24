@@ -2,7 +2,7 @@
 * @Author: Dat Dev
 * @Date:   2016-04-24 02:00:43
 * @Last Modified by:   Stefan Wirth
-* @Last Modified time: 2016-04-24 03:38:55
+* @Last Modified time: 2016-04-24 03:40:45
 */
 
 'use strict';
@@ -39,7 +39,7 @@ function grabHNStories(opts) {
         var parsedStories = stories.sort(function(one, two) {
             return two.score - one.score;
         }).map(function(story) {
-            return ':url :score :title by :name'
+            return ':score :url :title by :name'
                 .replace(':score', story.score)
                 .replace(':title', story.title)
                 .replace(':url', story.url)
