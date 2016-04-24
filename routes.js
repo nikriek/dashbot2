@@ -13,6 +13,7 @@ var redisClient = require('./redisService');
 var SlackWebClient = require('slack-client/lib/clients/web/client');
 var Dashboard = require('./db').Dashboard;
 var mongoose = require('mongoose');
+var config = require('./config');
 
 module.exports = {
     home: function(req, res) {
@@ -39,7 +40,7 @@ module.exports = {
     show: function(req, res) {
         var dashboardId = req.params.dashboardId;
         Dashboard.findById(dashboardId, function(err, dashboard) {
-          res.render('pages/dashboards/show', {dashboardId: dashboard.id});
+          res.render('pages/dashboards/show', {dashboardId: dashboard.id, websocket_url: config.websocket.url});
         });
         /*var history = slackClient.channels.history(channelId, {count: 50}, function(err, history) {
           res.redirect('/dashboards/' + dashboardId);

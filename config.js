@@ -10,5 +10,8 @@ module.exports = {
   },
   mongo: {
     url: process.env.MONGODB_URI || 'mongodb://localhost'
+  },
+  websocket: {
+    url: process.env.WEBSOCKET_URL || 'ws://localhost:8080'
   }
 }

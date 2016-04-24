@@ -17,6 +17,7 @@ var config = require('./config');
 var bodyParser = require('body-parser');
 var RedisStore = require('connect-redis')(session);
 var bot = require('./bot/index');
+var cookieParser = require('cookie-parser')
 
 var app = express();
 var server = require('http').createServer(app);
