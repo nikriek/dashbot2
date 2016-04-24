@@ -2,12 +2,13 @@
 * @Author: Dat Dev
 * @Date:   2016-04-23 16:10:10
 * @Last Modified by:   Stefan Wirth
-* @Last Modified time: 2016-04-24 01:51:59
+* @Last Modified time: 2016-04-24 02:07:50
 */
 
 var Promise = require('bluebird');
 var Botkit = require('botkit');
 var request = require('request-promise');
+var hackerNewsService = require('../service/hackerNewsService');
 //TODO: Use token of app
 var SLACK_BOT_TOKEN = 'xoxb-37206040724-wkMoGqvYabweh384xRYeeHiy';
 var GITHUB_API_URL  = 'https://api.github.com/';
@@ -54,6 +55,7 @@ function start(websocketServer) {
         configureGiphy(controller, websocketServer);
         configureYoutube(controller, websocketServer);
         configureTwitch(controller, websocketServer);
+        configureHackerNews(controller, websocketServer);
     });
 }
 
@@ -282,6 +284,30 @@ function configureTwitch(controller, websocketServer) {
     });
 }
 
+function configureHackerNews(controller, websocketServer) {
+    controller.hears('hn (\\d+)', 'direct_message,direct_mention,mention', function(bot, message) {
+        var numberOfStories = message.match[1];
+        hackerNewsService.hackerNews(numberOfStories || 30)
+            .then(function(stories) {
+                var payload = JSON.stringify({
+                    type: 'hn',
+                    data: {
+                        text: stories.split('\n')
+                    },
+                    col:'1',
+                    row:'1',
+                    sizex:'3',
+                    sizey:'2'
+                });
+                websocketServer.clients.forEach(function(client) {
+                    client.send(payload);
+                });
+                bot.reply(message, getReply());
+            }).catch(function(err) {
+                console.error(err);
+            });
+    });
+}
 
 
 
