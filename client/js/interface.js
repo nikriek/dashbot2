@@ -40,7 +40,7 @@ var Widget = React.createClass({
 				html = <iframe src={this.props.data.url} />
 			break;
 			case 'quote':
-				html = <div><b>{this.props.data.content.quote + "  "}</b><br/>{this.props.data.content.author}</div>;
+				html = <div><b>{this.props.data.content.quote + "  "}</b><i><br/>{this.props.data.content.author}</i></div>;
 				break;
 
 			case 'image':
