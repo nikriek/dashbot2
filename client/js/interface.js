@@ -93,7 +93,7 @@ var Grid = React.createClass({
 					'type':'weather',
 					'data': {
 						'degree':'6',
-						'location':'London, UK',
+						'location':'Brighton, UK',
 						'condition':'Mostly Cloudy',
 						'icon':'cloud'
 					},
