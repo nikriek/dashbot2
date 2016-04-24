@@ -6,7 +6,15 @@ var Widget = React.createClass({
 		var html = '';
 		switch(this.props.type) {
 			case 'text':
-				html = this.props.data.content
+				var commits = this.props.data.map(function(commit) {
+					var commit = commit.commit;
+					return <tr>
+								<td>{commit.author.name}</td><td>{commit.message}</td>
+							</tr>;
+				});
+				html = <table>
+						{commits}
+					</table>;
 			break;
 
 			case 'twitch':

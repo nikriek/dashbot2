@@ -136,17 +136,10 @@ function configureGithub(controller, websocketServer) {
             })
         })
         .then(function(commits) {
-            var res = '';
-            commits.forEach(function(commit) {
-                var commit = commit.commit;
-                res += '<tr>'
-                res += '<td>' + commit.author.name + '</td><td>' + commit.message + '</td>';
-                res += '</tr>';
-            });
             var payload = JSON.stringify({
                 type: 'text',
                 data: {
-                    content: res
+                    content: commits
                 },
                 col:'1',
                 row:'1',
