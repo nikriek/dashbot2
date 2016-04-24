@@ -1,35 +1,41 @@
 <% layout('../../layout') %>
 <script type="text/javascript">
-var ws = new WebSocket("<%= websocket_url %>");
-ws.onopen = function()
-{
-  // Web Socket is connected, send data using send()
-  ws.send("Message to send");
-};
 
-ws.onmessage = function (evt)
-{
-  var received_msg = JSON.parse(evt.data);
-  var widgets = window.widgets.state.widgets;
+function start(websocketServerLocation){
+    var ws = new WebSocket(websocketServerLocation);
+	ws.onopen = function() {
+	  // Web Socket is connected, send data using send()
+	  ws.send("Message to send");
+	};
 
-  console.log('Received Message:', received_msg);
+	ws.onmessage = function (evt) {
+	  var received_msg = JSON.parse(evt.data);
+	  var widgets = window.widgets.state.widgets;
 
-  if(received_msg.action == 'remove') {
-  	delete widgets[received_msg.type];
-  } else {
-  	widgets[received_msg.type] = received_msg;
-  }
+	  console.log('Received Message:', received_msg);
 
-  window.widgets.onUpdate(widgets)
-};
+	  if(received_msg.action == 'remove') {
+	  	delete widgets[received_msg.type];
+	  } else {
+	  	widgets[received_msg.type] = received_msg;
+	  }
 
-ws.onclose = function () {
-	console.log('Closed');
+	  window.widgets.onUpdate(widgets)
+	};
+
+	ws.onclose = function(){
+        //try to reconnect in 1 seconds
+        console.log('Closed');
+        setTimeout(function(){start(websocketServerLocation)}, 1000);
+    };
+
+	ws.onerror = function (error) {
+		console.log('Error:', error);
+	}
 }
 
-ws.onerror = function (error) {
-	console.log('Error:', error);
-}
+start("<%= websocket_url %>");
+
 </script>
 
 <div id="wrapper"></div>
