@@ -75,11 +75,29 @@ function start(websocketServer) {
 
 function getReply() {
     var replies = [
-        'Gotcha mate.',
-        'Got ya fam.',
+        'Gotcha mate!',
+        'Got ya fam!',
         'Say no more.',
-        'As you command.',
-        'Another one'
+        'All righty!',
+        'Alrighty!',
+        'Damn skippy!',
+        'Damn straight!',
+        'Forizzle!',
+        'Fo sheezie!',
+        'Fosheezy!',
+        'Fo shizzle!',
+        'Fo shizzle my nizzle!',
+        'Hells to the yes!',
+        'Hells yes!',
+        'Hell yeah!',
+        'Hot diggety!',
+        'Right on!',
+        'Rock and roll!',
+        'Roger!',
+        'Straight!',
+        'True dat!',
+        'Yessum!',
+        'I dig it!'
     ];
 
     return replies[Math.floor(Math.random() * replies.length)];
