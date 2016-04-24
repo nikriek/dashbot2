@@ -382,7 +382,7 @@ function configureTwitch(controller, websocketServer) {
 
 function configureHackerNews(controller, websocketServer) {
     controller.hears('hn (\\d+)', 'direct_message,direct_mention,mention', function(bot, message) {
-        var numberOfStories = parseInt(message.match[1]);
+        var numberOfStories = message.match[1];
         hackerNewsService.hackerNews({numberOfStories: parseInt(numberOfStories) || 30})
             .then(function(stories) {
                 var payload = JSON.stringify({
