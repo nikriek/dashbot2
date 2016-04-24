@@ -45,7 +45,7 @@ var Widget = React.createClass({
 				break;
 
 			case 'logo':
-			case 'image':
+			case 'mood':
 				var divStyle = {backgroundImage: 'url(' + this.props.data.url + ')'}
 				html = <div className="image" style={divStyle} />
 				break;
