@@ -144,7 +144,7 @@ function configureGithub(controller, websocketServer) {
                 },
                 col:'1',
                 row:'1',
-                sizex:'3',
+                sizex:'4',
                 sizey:'2'
             });
 
