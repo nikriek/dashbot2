@@ -52,7 +52,9 @@ function connect() {
 function start(websocketServer) {
     connect().
     then(function(controller) {
-        configureGithub(controller, websocketServer);
+        configureGithubCommitsList(controller, websocketServer);
+        configureGithubCommitersList(controller, websocketServer);
+        configureGithubTopCommiter(controller, websocketServer);
         configureWeather(controller, websocketServer);
         configureGoogleMaps(controller, websocketServer);
         configureGiphy(controller, websocketServer);
@@ -126,7 +128,7 @@ function configureWeather(controller, websocketServer) {
     });
 }
 
-function configureGithub(controller, websocketServer) {
+function configureGithubCommitsList(controller, websocketServer) {
     controller.hears('commits (\\w+)','direct_message,direct_mention,mention', function(bot, message) {
         request({
             uri: GITHUB_API_URL + 'search/repositories',
@@ -165,6 +167,48 @@ function configureGithub(controller, websocketServer) {
         });
     });
 }
+
+function configureGithubTopCommiter(controller, websocketServer) {
+    controller.hears('top-commiter (\\w+)','direct_message,direct_mention,mention', function(bot, message) {
+        request({
+            uri: 'https://api.github.com/repos/' + message.match[1] + '/stats/contributors',
+            headers: {'User-Agent' : 'herbert'},
+            json: true
+        })
+        .then(function(stats) {
+            topCommiter = {}
+            total = 0;
+            stats.forEach(function(commiter){
+                if(commiter.total < total) continue;
+                topCommiter = commiter;
+                total = commiter.total;
+            });
+
+            if(total === 0) return;
+
+            var payload = JSON.stringify({
+                type: 'topCommiter',
+                data: {
+                    user: topCommiter.author,
+                    total: topCommiter.total
+                },
+                col:'1',
+                row:'1',
+                sizex:'1',
+                sizey:'2'
+            });
+
+            websocketServer.clients.forEach(function(client) {
+                client.send(payload);
+            });
+            bot.reply(message, getReply());
+        })
+        .catch(function(err) {
+            console.error(err);
+        });
+    });
+}
+
 
 function configureGoogleMaps(controller, websocketServer) {
     controller.hears('travel from (\\w+) to (\\w+)', 'direct_message,direct_mention,mention', function(bot, message) {

@@ -59,6 +59,14 @@ var Widget = React.createClass({
 						</div>
 				break;
 
+			case 'topCommiter':
+				html = <div>
+							<img src={this.props.data.user.avatar_url}>
+							<p><b>{this.props.data.user.login}</b></p>
+							<p>{this.props.data.total} Commits</p>
+						</div>
+				break;
+
 		}
 
 		var classes = "widget widget-" + this.props.type
