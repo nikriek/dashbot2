@@ -22,6 +22,14 @@ ws.onmessage = function (evt)
 
   window.widgets.onUpdate(widgets)
 };
+
+ws.onclose = function () {
+	console.log('Closed');
+}
+
+ws.onerror = function (error) {
+	console.log('Error:', error);
+}
 </script>
 
 <div id="wrapper"></div>
