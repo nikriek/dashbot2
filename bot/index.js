@@ -2,7 +2,7 @@
 * @Author: Dat Dev
 * @Date:   2016-04-23 16:10:10
 * @Last Modified by:   Stefan Wirth
-* @Last Modified time: 2016-04-24 02:07:50
+* @Last Modified time: 2016-04-24 02:30:44
 */
 
 var Promise = require('bluebird');
@@ -191,7 +191,6 @@ function configureGoogleMaps(controller, websocketServer) {
 
 function configureGiphy(controller, websocketServer) {
     controller.hears('mood (\\w+)', 'direct_message,direct_mention,mention', function(bot, message) {
-        //TODO: Set based on input moo
         var mood = message.match[1];
         var query = (GIPHY_MAPPINGS[mood]) ? GIPHY_MAPPINGS[mood] : 'cat';
 
@@ -292,7 +291,7 @@ function configureHackerNews(controller, websocketServer) {
                 var payload = JSON.stringify({
                     type: 'hn',
                     data: {
-                        text: stories.split('\n')
+                        content: stories.split('\n')
                     },
                     col:'1',
                     row:'1',
