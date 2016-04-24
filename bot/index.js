@@ -312,7 +312,7 @@ function configureHackerNews(controller, websocketServer) {
 }
 
 function configureQuotes(controller, websocketServer) {
-    controller.hears('quotes (\\d+)', 'direct_message,direct_mention,mention', function(bot, message) {
+    controller.hears('quote (\\d+)', 'direct_message,direct_mention,mention', function(bot, message) {
         request({
             uri: 'http://quotes.stormconsultancy.co.uk/random.json',
             json: true
