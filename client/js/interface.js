@@ -72,10 +72,10 @@ var Widget = React.createClass({
 
 			case 'blame':
 				html = <div className="text-center">
-					<img src={this.props.data.content.avatar_url} />
+					<img src={this.props.data.content.actor.avatar_url} />
 					<p className="top20"><b>{this.props.data.content.actor.login}</b></p>
 					<p><b>Last Commit-Message:<br/></b></p>
-					<p>this.props.data.content.payload.commits[].message</p>
+					<p>this.props.data.content.payload.commits[0].message</p>
 				</div>
 				break;
 
