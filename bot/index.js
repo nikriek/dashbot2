@@ -180,8 +180,8 @@ function configureGithubTopCommitter(controller, websocketServer) {
             json: true
         })
         .then(function(stats) {
-            topCommitter = {}
-            total = 0;
+            var topCommitter = {};
+            var total = 0;
             stats.forEach(function(committer){
                 if(committer.total < total) return;
                 topCommitter = committer;
@@ -224,7 +224,7 @@ function configureGithubCommittersList(controller, websocketServer) {
             json: true
         })
         .then(function(stats) {
-            committers = []
+            var committers = []
             stats.forEach(function(committer){
                 committers.push('[' + committer.total + '] ' + committer.author.login);
             });
