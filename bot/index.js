@@ -312,12 +312,13 @@ function configureHackerNews(controller, websocketServer) {
 }
 
 function configureQuotes(controller, websocketServer) {
-    controller.hears('quote (\\d+)', 'direct_message,direct_mention,mention', function(bot, message) {
+    controller.hears('quote', 'direct_message,direct_mention,mention', function(bot, message) {
         request({
             uri: 'http://quotes.stormconsultancy.co.uk/random.json',
             json: true
         })
         .then(function (quote) {
+            console.log(quote);
             var payload = JSON.stringify({
                 type: 'quote',
                 data: {
