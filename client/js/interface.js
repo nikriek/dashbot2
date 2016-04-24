@@ -20,6 +20,7 @@ var Widget = React.createClass({
 			break;
 
 			case 'hackernews':
+			case 'producthunt':
 			case 'list':
 				var entries = this.props.data.content.map(function(entry) {
 					return <div className="list-entry">{entry}</div>;

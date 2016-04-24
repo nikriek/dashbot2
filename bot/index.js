@@ -181,8 +181,8 @@ function configureGoogleMaps(controller, websocketServer) {
             },
             col:'1',
             row:'1',
-            sizex:'2',
-            sizey:'3'
+            sizex:'3',
+            sizey:'2'
         });
 
         websocketServer.clients.forEach(function(client) {
@@ -319,7 +319,6 @@ function configureQuotes(controller, websocketServer) {
             json: true
         })
         .then(function (quote) {
-            console.log(quote);
             var payload = JSON.stringify({
                 type: 'quote',
                 data: {
