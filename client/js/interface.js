@@ -17,7 +17,7 @@ var Widget = React.createClass({
 						{commits}
 						</tbody>
 					</table>;
-			break;
+				break;
 
 			case 'hackernews':
 			case 'producthunt':
@@ -29,7 +29,7 @@ var Widget = React.createClass({
 				html = <div className="list">
 						{entries}
 					</div>;
-			break;
+				break;
 
 			case 'text':
 				html = <p>{this.props.data.content}</p>;
@@ -39,7 +39,7 @@ var Widget = React.createClass({
 			case 'video':
 			case 'map':
 				html = <iframe src={this.props.data.url} />
-			break;
+				break;
 			case 'quote':
 				html = <p><b>{this.props.data.content.quote + "  "}</b><br/><i>- {this.props.data.content.author}</i></p>;
 				break;
@@ -48,7 +48,7 @@ var Widget = React.createClass({
 			case 'image':
 				var divStyle = {backgroundImage: 'url(' + this.props.data.url + ')'}
 				html = <div className="image" style={divStyle} />
-			break;
+				break;
 
 			case 'weather':
 				var iconClass = 'fa fa-' + this.props.data.icon;
@@ -57,7 +57,7 @@ var Widget = React.createClass({
 							<div className="degree">{this.props.data.degree}°C</div>
 							<div className="location">{this.props.data.location}</div>
 						</div>
-			break;
+				break;
 
 		}
 
