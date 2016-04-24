@@ -2,7 +2,7 @@
 * @Author: Dat Dev
 * @Date:   2016-04-23 16:10:10
 * @Last Modified by:   Stefan Wirth
-* @Last Modified time: 2016-04-24 01:49:00
+* @Last Modified time: 2016-04-24 01:51:59
 */
 
 var Promise = require('bluebird');
@@ -112,7 +112,6 @@ function configureWeather(controller, websocketServer) {
             websocketServer.clients.forEach(function(client) { 
                 client.send(payload);
             });
-
             bot.reply(message, getReply());
         });
     });
@@ -204,7 +203,6 @@ function configureGiphy(controller, websocketServer) {
         })
         .then(function(giphs) {
             var index = Math.floor(Math.random() * giphs.data.length);
-            console.log(index);
             var giphUrl = giphs.data[index].images.original.url;
             var payload = JSON.stringify({
                 type: 'image',
@@ -213,8 +211,8 @@ function configureGiphy(controller, websocketServer) {
                 },
                 col:'1',
                 row:'1',
-                sizex:'1',
-                sizey:'2'
+                sizex:'2',
+                sizey:'1'
             });
             websocketServer.clients.forEach(function(client) {
                 client.send(payload);
