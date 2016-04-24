@@ -47,7 +47,7 @@ var Widget = React.createClass({
 				break;
 
 			case 'logo':
-			case 'mood':
+			case 'gif':
 				var divStyle = {backgroundImage: 'url(' + this.props.data.url + ')'}
 				html = <div className="image" style={divStyle} />
 				break;
@@ -135,8 +135,8 @@ var Grid = React.createClass({
 					'sizey':'1'
 				},
 				
-				'mood': {
-					'type':'mood',
+				'gif': {
+					'type':'gif',
 					'data': {
 						'url':'https://media.giphy.com/media/wpoLqr5FT1sY0/giphy.gif'
 					},

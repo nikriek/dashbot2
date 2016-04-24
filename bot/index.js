@@ -20,12 +20,7 @@ var WEATHER_API_KEY = 'da10088df7a4a9b535842d280d0a05f1';
 var QUOTES_API_URL = 'http://api.forismatic.com/api/1.0/';
 var GIPHY_API_URL = 'http://api.giphy.com/v1/gifs/search';
 var GIPHY_API_KEY = 'dc6zaTOxFJmzC';
-var GIPHY_MAPPINGS = {
-    sad: 'happy',
-    happy: 'happy',
-    fu: 'fuck you',
-    lol: 'lol'
-};
+
 var MAPS_API_KEY = 'AIzaSyBc3vureyEIaTU0sDerZpa5Wd0zgChLtCk';
 var YOUTUBE_API = 'https://www.googleapis.com/youtube/v3/search';
 
@@ -305,10 +300,8 @@ function configureGoogleMaps(controller, websocketServer) {
 }
 
 function configureGiphy(controller, websocketServer) {
-    controller.hears('mood (\\w+)', 'direct_message,direct_mention,mention', function(bot, message) {
-        var mood = message.match[1];
-        var query = (GIPHY_MAPPINGS[mood]) ? GIPHY_MAPPINGS[mood] : 'cat';
-
+    controller.hears('gif (\\w+)', 'direct_message,direct_mention,mention', function(bot, message) {
+        var query = message.match[1];
         request({
             uri: GIPHY_API_URL,
             qs: {
@@ -317,13 +310,13 @@ function configureGiphy(controller, websocketServer) {
             },
             json: true
         })
-        .then(function(giphs) {
-            var index = Math.floor(Math.random() * giphs.data.length);
-            var giphUrl = giphs.data[index].images.original.url;
+        .then(function(gif) {
+            var index = Math.floor(Math.random() * gif.data.length);
+            var gifUrl = gif.data[index].images.original.url;
             var payload = JSON.stringify({
-                type: 'mood',
+                type: 'gif',
                 data: {
-                    url: giphUrl
+                    url: gifUrl
                 },
                 col:'1',
                 row:'1',
