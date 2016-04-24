@@ -80,6 +80,10 @@ function getReply() {
     return replies[Math.floor(Math.random() * replies.length)];
 }
 
+function errorReply() {
+    return 'I can\'t help you. Sorry bro :(';
+}
+
 function configureWeather(controller, websocketServer) {
     controller.hears('weather (\\w+)', 'direct_message,direct_mention,mention', function(bot, message) {
         request({
@@ -124,6 +128,10 @@ function configureWeather(controller, websocketServer) {
                 client.send(payload);
             });
             bot.reply(message, getReply());
+        })
+        .catch(function(err) {
+            bot.reply(message, errorReply());
+            console.error(err);
         });
     });
 }
@@ -163,6 +171,7 @@ function configureGithubCommitsList(controller, websocketServer) {
             bot.reply(message, getReply());
         })
         .catch(function(err) {
+            bot.reply(message, errorReply());
             console.error(err);
         });
     });
@@ -204,6 +213,7 @@ function configureGithubTopCommitter(controller, websocketServer) {
             bot.reply(message, getReply());
         })
         .catch(function(err) {
+            bot.reply(message, errorReply());
             console.error(err);
         });
     });
@@ -242,6 +252,7 @@ function configureGithubCommittersList(controller, websocketServer) {
             bot.reply(message, getReply());
         })
         .catch(function(err) {
+            bot.reply(message, errorReply());
             console.error(err);
         });
     });
@@ -310,6 +321,7 @@ function configureGiphy(controller, websocketServer) {
             bot.reply(message, getReply());
         })
         .catch(function(err) {
+            bot.reply(message, errorReply());
             console.error(err);
         });
     });
@@ -346,6 +358,7 @@ function configureYoutube(controller, websocketServer) {
             bot.reply(message, getReply());
         })
         .catch(function(err) {
+            bot.reply(message, errorReply());
             console.error(err);
         });
     });
@@ -392,6 +405,7 @@ function configureHackerNews(controller, websocketServer) {
                 });
                 bot.reply(message, getReply());
             }).catch(function(err) {
+                bot.reply(message, errorReply());
                 console.error(err);
             });
     });
@@ -419,6 +433,7 @@ function configureProductHunt(controller, websocketServer) {
 
                 bot.reply(message, getReply());
             }).catch(function(err) {
+                bot.reply(message, errorReply());
                 console.error(err);
             });
     });
@@ -446,6 +461,7 @@ function configureQuotes(controller, websocketServer) {
             });
             bot.reply(message, getReply());
         }).catch(function (err) {
+            bot.reply(message, errorReply());
             console.error(err);
         });
     })
