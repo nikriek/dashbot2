@@ -9,7 +9,7 @@ var Widget = React.createClass({
 				var commits = this.props.data.content.map(function(commit) {
 					var commit = commit.commit;
 					return <tr>
-								<td>{commit.author.name}</td><td>{commit.message}</td>
+								<td>{commit.author.name}:</td><td>{commit.message}</td>
 							</tr>;
 				});
 				html = <table>
