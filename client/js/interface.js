@@ -22,12 +22,14 @@ var Widget = React.createClass({
 			case 'hackernews':
 			case 'list':
 				var entries = this.props.data.content.map(function(entry) {
-					return <li>{entry}</li>;
+					return <tr><td>{entry}</td></tr>;
 				});
 
-				html = <ul>
+				html = <table>
+						<tbody>
 						{entries}
-					</ul>;
+						</tbody>
+					</table>;
 			break;
 
 			case 'text':
@@ -39,6 +41,9 @@ var Widget = React.createClass({
 			case 'map':
 				html = <iframe src={this.props.data.url} />
 			break;
+			case 'quote':
+				html = <div>{this.props.data.content.quote + "  "}<b>{this.props.data.content.author}</b></div>;
+				break;
 
 			case 'image':
 				var divStyle = {backgroundImage: 'url(' + this.props.data.url + ')'}

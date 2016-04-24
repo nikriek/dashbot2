@@ -2,7 +2,7 @@
 * @Author: Dat Dev
 * @Date:   2016-04-23 16:10:10
 * @Last Modified by:   Stefan Wirth
-* @Last Modified time: 2016-04-24 02:07:50
+* @Last Modified time: 2016-04-24 03:27:25
 */
 
 var Promise = require('bluebird');
@@ -14,6 +14,7 @@ var SLACK_BOT_TOKEN = 'xoxb-37206040724-wkMoGqvYabweh384xRYeeHiy';
 var GITHUB_API_URL  = 'https://api.github.com/';
 var WEATHER_API_URL = 'http://api.openweathermap.org/data/2.5/weather';
 var WEATHER_API_KEY = 'da10088df7a4a9b535842d280d0a05f1';
+var QUOTES_API_URL = 'http://api.forismatic.com/api/1.0/';
 var GIPHY_API_URL = 'http://api.giphy.com/v1/gifs/search';
 var GIPHY_API_KEY = 'dc6zaTOxFJmzC';
 var GIPHY_MAPPINGS = {
@@ -56,6 +57,7 @@ function start(websocketServer) {
         configureYoutube(controller, websocketServer);
         configureTwitch(controller, websocketServer);
         configureHackerNews(controller, websocketServer);
+        configureQuotes(controller, websocketServer);
     });
 }
 
@@ -191,7 +193,6 @@ function configureGoogleMaps(controller, websocketServer) {
 
 function configureGiphy(controller, websocketServer) {
     controller.hears('mood (\\w+)', 'direct_message,direct_mention,mention', function(bot, message) {
-        //TODO: Set based on input moo
         var mood = message.match[1];
         var query = (GIPHY_MAPPINGS[mood]) ? GIPHY_MAPPINGS[mood] : 'cat';
 
@@ -290,9 +291,9 @@ function configureHackerNews(controller, websocketServer) {
         hackerNewsService.hackerNews(numberOfStories || 30)
             .then(function(stories) {
                 var payload = JSON.stringify({
-                    type: 'hn',
+                    type: 'hackernews',
                     data: {
-                        text: stories.split('\n')
+                        content: stories.split('\n')
                     },
                     col:'1',
                     row:'1',
@@ -307,6 +308,35 @@ function configureHackerNews(controller, websocketServer) {
                 console.error(err);
             });
     });
+}
+
+function configureQuotes(controller, websocketServer) {
+    controller.hears('quote', 'direct_message,direct_mention,mention', function(bot, message) {
+        request({
+            uri: 'http://quotes.stormconsultancy.co.uk/random.json',
+            json: true
+        })
+        .then(function (quote) {
+            console.log(quote);
+            var payload = JSON.stringify({
+                type: 'quote',
+                data: {
+                    content: quote
+                },
+                col:'1',
+                row:'1',
+                sizex:'2',
+                sizey:'1'
+            });
+            websocketServer.clients.forEach(function(client) {
+                client.send(payload);
+            });
+            bot.reply(message, getReply());
+        }).catch(function (err) {
+            console.error(err);
+        });
+    })
+
 }
 
 
