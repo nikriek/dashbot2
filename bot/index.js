@@ -58,6 +58,7 @@ function start(websocketServer) {
         configureTwitch(controller, websocketServer);
         configureHackerNews(controller, websocketServer);
         configureQuotes(controller, websocketServer);
+        configureCloseWidget(controller, websocketServer);
     });
 }
 
