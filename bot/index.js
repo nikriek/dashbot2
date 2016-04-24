@@ -2,7 +2,7 @@
 * @Author: Dat Dev
 * @Date:   2016-04-23 16:10:10
 * @Last Modified by:   Stefan Wirth
-* @Last Modified time: 2016-04-24 07:39:18
+* @Last Modified time: 2016-04-24 08:09:44
 */
 
 var Promise = require('bluebird');
@@ -393,7 +393,7 @@ function configureTwitch(controller, websocketServer) {
 function configureHackerNews(controller, websocketServer) {
     controller.hears('hn (\\d+)', 'direct_message,direct_mention,mention', function(bot, message) {
         var numberOfStories = message.match[1];
-        hackerNewsService.hackerNews(numberOfStories || 30)
+        hackerNewsService.hackerNews({numberOfStories: parseInt(numberOfStories) || 30})
             .then(function(stories) {
                 var payload = JSON.stringify({
                     type: 'hackernews',
