@@ -137,8 +137,9 @@ function configureGithub(controller, websocketServer) {
             var res = '';
             commits.forEach(function(commit) {
                 var commit = commit.commit;
-                res += '[' + commit.author.name + '] ' + commit.message;
-                res += '\n';
+                res += '<tr>'
+                res += '<td>' + commit.author.name + '</td><td>' + commit.message + '</td>';
+                res += '</tr>';
             });
             var payload = JSON.stringify({
                 type: 'text',
@@ -147,8 +148,8 @@ function configureGithub(controller, websocketServer) {
                 },
                 col:'1',
                 row:'1',
-                sizex:'2',
-                sizey:'3'
+                sizex:'3',
+                sizey:'2'
             });
 
             websocketServer.clients.forEach(function(client) {
