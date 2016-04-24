@@ -87,7 +87,7 @@ function configureWeather(controller, websocketServer) {
             json: true
         })
         .then(function(weather) {
-            var temperature = weather.main.temp;
+            var temperature = Math.round(weather.main.temp);
             var condition = weather.weather[0].description;
             var cityName = weather.name;
             var mainCondition = weather.weather[0].main.toLowerCase();
