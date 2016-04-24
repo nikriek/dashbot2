@@ -22,14 +22,12 @@ var Widget = React.createClass({
 			case 'hackernews':
 			case 'list':
 				var entries = this.props.data.content.map(function(entry) {
-					return <tr><td>{entry}</td></tr>;
+					return <div className="list-entry">{entry}</div>;
 				});
 
-				html = <table>
-						<tbody>
+				html = <div className="list">
 						{entries}
-						</tbody>
-					</table>;
+					</div>;
 			break;
 
 			case 'text':

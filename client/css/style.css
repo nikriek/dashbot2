@@ -82,6 +82,8 @@ body {
     max-width:100%;
 }
 
+
+
 .widget iframe{
     width:100%;
     height:100%;
@@ -142,21 +144,21 @@ body {
 
 
 
-.widget ul {
+.widget .list {
     list-style-type: none;
     padding:0px;
     float:left;
     width:100%;
 }
 
-.widget ul li {
+.widget .list-entry {
     padding:10px 0px;
     float:left;
     width:100%;
     color:#fff;
 }
 
-.widget ul li + li {
+.widget .list-entry  + .list-entry  {
     border-top:1px solid #999;
 }
 
