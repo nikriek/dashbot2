@@ -53,7 +53,7 @@ function start(websocketServer) {
     connect().
     then(function(controller) {
         configureGithubCommitsList(controller, websocketServer);
-        configureGithubCommitersList(controller, websocketServer);
+        //configureGithubCommitersList(controller, websocketServer);
         configureGithubTopCommiter(controller, websocketServer);
         configureWeather(controller, websocketServer);
         configureGoogleMaps(controller, websocketServer);
