@@ -2,7 +2,7 @@
 * @Author: Dat Dev
 * @Date:   2016-04-23 16:10:10
 * @Last Modified by:   Stefan Wirth
-* @Last Modified time: 2016-04-24 08:09:44
+* @Last Modified time: 2016-04-24 09:58:05
 */
 
 var Promise = require('bluebird');
@@ -10,6 +10,7 @@ var Botkit = require('botkit');
 var request = require('request-promise');
 var hackerNewsService = require('../service/hackerNewsService');
 var productHuntService = require('../service/productHuntService');
+var githubService = require('../service/githubService')
 
 //TODO: Use token of app
 var SLACK_BOT_TOKEN = 'xoxb-37206040724-wkMoGqvYabweh384xRYeeHiy';
@@ -37,7 +38,7 @@ module.exports = {
     start: start
 };
 
-function connect() {
+function connect(websocketServer) {
     var controller = Botkit.slackbot({debug: false});
     return new Promise(function(resolve, reject) {
         controller.spawn({
@@ -46,6 +47,7 @@ function connect() {
             if(err) {
                 reject(err);
             } else {
+                controller.middleware.receive.use(githubService(websocketServer));
                 resolve(controller);
             }
         });
@@ -53,7 +55,7 @@ function connect() {
 }
 
 function start(websocketServer) {
-    connect().
+    connect(websocketServer).
     then(function(controller) {
         configureGithubCommitsList(controller, websocketServer);
         configureGithubCommittersList(controller, websocketServer);
