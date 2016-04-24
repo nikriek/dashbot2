@@ -31,7 +31,7 @@ var Widget = React.createClass({
 						{entries}
 					</div>;
 				break;
-
+			case 'github':
 			case 'text':
 				html = <p>{this.props.data.content}</p>;
 				break;
