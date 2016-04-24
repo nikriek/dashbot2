@@ -79,13 +79,23 @@ var Grid = React.createClass({
 	getInitialState: function() {
 		return { widgets:
 			{
+				'map': {
+					'type':'map',
+					'data': {
+						'url':'https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d20145.441013409138!2d-0.0819660330810601!3d50.864864973999495!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sde!2suk!4v1461431861495'
+					},
+					'col':'1',
+					'row':'1',
+					'sizex':'3',
+					'sizey':'2'
+				},
 				'weather': {
 					'type':'weather',
 					'data': {
-						'degree':'36',
+						'degree':'6',
 						'location':'London, UK',
-						'condition':'Mostly Sunny',
-						'icon':'sun-o'
+						'condition':'Mostly Cloudy',
+						'icon':'cloud'
 					},
 					'col':'1',
 					'row':'1',
@@ -102,16 +112,7 @@ var Grid = React.createClass({
 					'sizex':'1',
 					'sizey':'1'
 				},
-				'map': {
-					'type':'map',
-					'data': {
-						'url':'https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d20145.441013409138!2d-0.0819660330810601!3d50.864864973999495!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sde!2suk!4v1461431861495'
-					},
-					'col':'1',
-					'row':'1',
-					'sizex':'3',
-					'sizey':'2'
-				},
+				
 				'image': {
 					'type':'image',
 					'data': {
