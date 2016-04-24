@@ -6,6 +6,7 @@ function start(websocketServerLocation){
 	ws.onopen = function() {
 	  // Web Socket is connected, send data using send()
 	  ws.send("Message to send");
+	  console.log('Opened');
 	};
 
 	ws.onmessage = function (evt) {
