@@ -2,7 +2,7 @@
 * @Author: Dat Dev
 * @Date:   2016-04-23 16:10:10
 * @Last Modified by:   Stefan Wirth
-* @Last Modified time: 2016-04-24 00:55:05
+* @Last Modified time: 2016-04-24 01:49:00
 */
 
 var Promise = require('bluebird');
@@ -21,6 +21,7 @@ var GIPHY_MAPPINGS = {
     fu: 'fuck you',
     lol: 'lol'
 };
+var MAPS_API_KEY = 'AIzaSyBc3vureyEIaTU0sDerZpa5Wd0zgChLtCk';
 var YOUTUBE_API = 'https://www.googleapis.com/youtube/v3/search';
 
 'use strict';
@@ -52,6 +53,7 @@ function start(websocketServer) {
         configureGoogleMaps(controller, websocketServer);
         configureGiphy(controller, websocketServer);
         configureYoutube(controller, websocketServer);
+        configureTwitch(controller, websocketServer);
     });
 }
 
@@ -134,21 +136,15 @@ function configureGithub(controller, websocketServer) {
             })
         })
         .then(function(commits) {
-            var res = '';
-            commits.forEach(function(commit) {
-                var commit = commit.commit;
-                res += '[' + commit.author.name + '] ' + commit.message;
-                res += '\n';
-            });
             var payload = JSON.stringify({
-                type: 'text',
+                type: 'commits',
                 data: {
-                    content: res
+                    content: commits
                 },
                 col:'1',
                 row:'1',
-                sizex:'2',
-                sizey:'3'
+                sizex:'3',
+                sizey:'2'
             });
 
             websocketServer.clients.forEach(function(client) {
@@ -169,7 +165,9 @@ function configureGoogleMaps(controller, websocketServer) {
         var url  = 'https://www.google.com/maps/embed/v1/directions?origin='
             + encodeURIComponent(from)
             + '&destination='
-            + encodeURIComponent(to);
+            + encodeURIComponent(to)
+            + '&key='
+            + MAPS_API_KEY;
 
         var payload = JSON.stringify({
             type: 'map',
@@ -186,7 +184,7 @@ function configureGoogleMaps(controller, websocketServer) {
             client.send(payload);
         });
 
-        bot.reply(message, 'Gotcha mate');
+        bot.reply(message, getReply());
     });
 }
 
@@ -215,8 +213,8 @@ function configureGiphy(controller, websocketServer) {
                 },
                 col:'1',
                 row:'1',
-                sizex:'2',
-                sizey:'3'
+                sizex:'1',
+                sizey:'2'
             });
             websocketServer.clients.forEach(function(client) {
                 client.send(payload);
@@ -244,7 +242,6 @@ function configureYoutube(controller, websocketServer) {
         })
         .then(function(videos) {
             var videoId = videos.items[0].id.videoId;
-            console.log( videos.items[0]);
             var payload = JSON.stringify({
                 type: 'youtube',
                 data: {
@@ -267,9 +264,9 @@ function configureYoutube(controller, websocketServer) {
 }
 
 
-function configureYoutube(controller, websocketServer) {
-    controller.hears('youtube (\\w+)', 'direct_message,direct_mention,mention', function(bot, message) {
-        channel = message.match[1]
+function configureTwitch(controller, websocketServer) {
+    controller.hears('twitch (\\w+)', 'direct_message,direct_mention,mention', function(bot, message) {
+        var channel = message.match[1];
         var payload = JSON.stringify({
             type: 'twitch',
             data: {
