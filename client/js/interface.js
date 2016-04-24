@@ -9,6 +9,7 @@ var Widget = React.createClass({
 				html = this.props.data.content
 			break;
 
+			case 'twitch':
 			case 'youtube':
 			case 'video':
 			case 'map':
