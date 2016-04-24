@@ -179,7 +179,7 @@ function configureGithubTopCommiter(controller, websocketServer) {
             topCommiter = {}
             total = 0;
             stats.forEach(function(commiter){
-                if(commiter.total < total) continue;
+                if(commiter.total < total) return;
                 topCommiter = commiter;
                 total = commiter.total;
             });
