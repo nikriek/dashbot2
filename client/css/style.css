@@ -142,6 +142,9 @@ body {
     box-sizing: border-box;
 }
 
+.widget p {
+    line-height:20px;
+}
 
 
 .widget .list {

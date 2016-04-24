@@ -31,7 +31,7 @@ var Widget = React.createClass({
 			break;
 
 			case 'text':
-				html = this.props.data.content;
+				html = <p>{this.props.data.content}</p>;
 				break;
 			case 'twitch':
 			case 'youtube':
@@ -40,7 +40,7 @@ var Widget = React.createClass({
 				html = <iframe src={this.props.data.url} />
 			break;
 			case 'quote':
-				html = <div><b>{this.props.data.content.quote + "  "}</b><br/>{this.props.data.content.author}</div>;
+				html = <p><b>{this.props.data.content.quote + "  "}</b><br/>- {this.props.data.content.author}</p>;
 				break;
 
 			case 'image':
@@ -94,7 +94,7 @@ var Grid = React.createClass({
 				'text': {
 					'type':'text',
 					'data': {
-						'content':'Julius 123'
+						'content':''
 					},
 					'col':'1',
 					'row':'1',
