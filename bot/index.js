@@ -2,7 +2,7 @@
 * @Author: Dat Dev
 * @Date:   2016-04-23 16:10:10
 * @Last Modified by:   Stefan Wirth
-* @Last Modified time: 2016-04-24 03:27:25
+* @Last Modified time: 2016-04-24 07:06:39
 */
 
 var Promise = require('bluebird');
@@ -24,6 +24,9 @@ var GIPHY_MAPPINGS = {
 };
 var MAPS_API_KEY = 'AIzaSyBc3vureyEIaTU0sDerZpa5Wd0zgChLtCk';
 var YOUTUBE_API = 'https://www.googleapis.com/youtube/v3/search';
+
+var YODA_API_KEY = process.env.YODA_API_KEY || '7fVty9AMDOmshL5MYmokNfw38skRp1jYg9Ujsn9RpzH3s0e4Fl';
+var YODA_API_HOST = process.env.YODA_API_HOST || 'https://yoda.p.mashape.com/yoda';
 
 'use strict';
 
@@ -56,6 +59,7 @@ function start(websocketServer) {
         configureYoutube(controller, websocketServer);
         configureTwitch(controller, websocketServer);
         configureHackerNews(controller, websocketServer);
+        configureYodaify(controller, websocketServer);
     });
 }
 
@@ -305,6 +309,45 @@ function configureHackerNews(controller, websocketServer) {
             }).catch(function(err) {
                 console.error(err);
             });
+    });
+}
+
+
+function configureYodaify(controller, websocketServer) {
+    controller.hears('yodaquote', 'direct_message,direct_mention,mention', function(bot, message) {
+        request({
+            uri: 'http://quotes.stormconsultancy.co.uk/random.json',
+            json: true
+        })
+        .then(function(quote) {
+            return request({
+                uri: YODA_API_HOST,
+                qs: {sentence : quote.quote},
+                headers: {
+                    'X-Mashape-Key': YODA_API_KEY,
+                    'Accept': 'text/plain'
+                }
+            });
+        })
+        .then(function(yodaQuote) {
+            var payload = JSON.stringify({
+                type: 'yodaquote',
+                data: {
+                    content: {
+                        quote: yodaQuote,
+                        author: 'yoda'
+                    }
+                },
+                col:'1',
+                row:'1',
+                sizex:'2',
+                sizey:'1'
+            });
+            websocketServer.clients.forEach(function(client) {
+                client.send(payload);
+            });
+            bot.reply(message, yodaQuote);
+        }); 
     });
 }
 
