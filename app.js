@@ -21,7 +21,7 @@ var cookieParser = require('cookie-parser')
 
 var app = express();
 var server = require('http').createServer(app);
-var websocket = require('./webSocketService')(server);
+var websocket = require('./websocketService')(server);
 
 app.set('port', (process.env.PORT || 8080));
 
