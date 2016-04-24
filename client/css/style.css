@@ -67,7 +67,9 @@ body {
 
 .gridster .preview-holder {
     border: none!important;
-    background: #000!important;
+    background: red!important;
+    padding:10px;
+    box-sizing: border-box;
 }
 
 
