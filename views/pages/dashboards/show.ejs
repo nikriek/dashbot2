@@ -12,6 +12,8 @@ ws.onmessage = function (evt)
   var received_msg = JSON.parse(evt.data);
   var widgets = window.widgets.state.widgets;
 
+  console.log('Received Message:', received_msg);
+
   if(received_msg.action == 'remove') {
   	delete widgets[received_msg.type];
   } else {
