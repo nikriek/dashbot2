@@ -142,27 +142,17 @@ function configureWeather(controller, websocketServer) {
 }
 
 function configureGithubCommitsList(controller, websocketServer) {
-    controller.hears('commits (\\w+)','direct_message,direct_mention,mention', function(bot, message) {
+    controller.hears('commits (\\w+) (\\w+)','direct_message,direct_mention,mention', function(bot, message) {
         request({
-            uri: GITHUB_API_URL + 'search/repositories',
-            qs: {q: message.match[1]},
+            uri: 'https://api.github.com/repos/' + message.match[1] + '/' +  message.match[2] + '/commits',
             headers: {'User-Agent' : 'herbert'},
             json: true
         })
-        .then(function(repositories) {
-            var repositoryId = repositories.items[0].id;
-            return request({
-                uri: GITHUB_API_URL + 'repositories/' + repositoryId + '/commits',
-                qs: {per_page: 10},
-                headers: {'User-Agent' : 'herbert'},
-                json: true
-            })
-        })
-        .then(function(commits) {
+        .then(function(repository) {
             var payload = JSON.stringify({
                 type: 'commits',
                 data: {
-                    content: commits
+                    content: repository.slice(0,9)
                 },
                 col:'1',
                 row:'1',
@@ -392,7 +382,7 @@ function configureTwitch(controller, websocketServer) {
 
 function configureHackerNews(controller, websocketServer) {
     controller.hears('hn (\\d+)', 'direct_message,direct_mention,mention', function(bot, message) {
-        var numberOfStories = message.match[1];
+        var numberOfStories = parseInt(message.match[1]);
         hackerNewsService.hackerNews({numberOfStories: parseInt(numberOfStories) || 30})
             .then(function(stories) {
                 var payload = JSON.stringify({
