@@ -92,16 +92,6 @@ var Grid = React.createClass({
 					'sizex':'1',
 					'sizey':'1'
 				},
-				'text': {
-					'type':'text',
-					'data': {
-						'content':'HackSussex 2016'
-					},
-					'col':'1',
-					'row':'1',
-					'sizex':'1',
-					'sizey':'1'
-				},
 				'logo': {
 					'type':'logo',
 					'data': {
