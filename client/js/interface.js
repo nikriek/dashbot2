@@ -5,8 +5,8 @@ var Widget = React.createClass({
 	render: function() {
 		var html = '';
 		switch(this.props.type) {
-			case 'text':
-				var commits = this.props.data.map(function(commit) {
+			case 'commits':
+				var commits = this.props.data.content.map(function(commit) {
 					var commit = commit.commit;
 					return <tr>
 								<td>{commit.author.name}</td><td>{commit.message}</td>
@@ -16,7 +16,9 @@ var Widget = React.createClass({
 						{commits}
 					</table>;
 			break;
-
+			case 'text':
+				html = this.props.data.content;
+				break;
 			case 'twitch':
 			case 'youtube':
 			case 'video':

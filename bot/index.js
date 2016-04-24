@@ -138,7 +138,7 @@ function configureGithub(controller, websocketServer) {
         })
         .then(function(commits) {
             var payload = JSON.stringify({
-                type: 'text',
+                type: 'commits',
                 data: {
                     content: commits
                 },
