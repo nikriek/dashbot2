@@ -43,6 +43,7 @@ var Widget = React.createClass({
 				html = <p><b>{this.props.data.content.quote + "  "}</b><br/><i>- {this.props.data.content.author}</i></p>;
 				break;
 
+			case 'logo':
 			case 'image':
 				var divStyle = {backgroundImage: 'url(' + this.props.data.url + ')'}
 				html = <div className="image" style={divStyle} />
@@ -101,6 +102,16 @@ var Grid = React.createClass({
 					'sizex':'1',
 					'sizey':'1'
 				},
+				'logo': {
+					'type':'logo',
+					'data': {
+						'url':'https://scontent-lhr3-1.xx.fbcdn.net/hphotos-xaf1/v/t1.0-9/1917511_193904624321617_6591903680161746240_n.png?oh=247c05dfbb00a230ebe9f7eb6387174c&oe=5775B209'
+					},
+					'col':'1',
+					'row':'1',
+					'sizex':'1',
+					'sizey':'1'
+				}
 				'map': {
 					'type':'map',
 					'data': {
