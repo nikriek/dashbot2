@@ -213,7 +213,7 @@ function configureGiphy(controller, websocketServer) {
             var index = Math.floor(Math.random() * giphs.data.length);
             var giphUrl = giphs.data[index].images.original.url;
             var payload = JSON.stringify({
-                type: 'image',
+                type: 'mood',
                 data: {
                     url: giphUrl
                 },

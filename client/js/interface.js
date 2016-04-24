@@ -114,8 +114,8 @@ var Grid = React.createClass({
 					'sizey':'1'
 				},
 				
-				'image': {
-					'type':'image',
+				'mood': {
+					'type':'mood',
 					'data': {
 						'url':'https://media.giphy.com/media/wpoLqr5FT1sY0/giphy.gif'
 					},
