@@ -115,6 +115,10 @@ body {
     margin-top:20px;
 }
 
+.width100 {
+    width:100px;
+}
+
 .huge-text {
     font-size:60px;
 }
