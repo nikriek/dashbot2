@@ -70,6 +70,15 @@ var Widget = React.createClass({
 						</div>
 				break;
 
+			case 'blamee':
+				html = <div className="text-center">
+					<img src={this.props.data.user.avatar_url} />
+					<p className="top20"><b>{this.props.data.user.login}</b></p>
+					<p className="huge-text top20">{this.props.data.total}</p>
+					<p className="top20">Commits</p>
+				</div>
+				break;
+
 		}
 
 		var classes = "widget widget-" + this.props.type
