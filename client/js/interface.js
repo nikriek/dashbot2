@@ -116,7 +116,7 @@ var Grid = React.createClass({
 				'image': {
 					'type':'image',
 					'data': {
-						'url':'http://24.media.tumblr.com/tumblr_m5xb7jt3By1rotwwto1_500.gif'
+						'url':'https://media.giphy.com/media/wpoLqr5FT1sY0/giphy.gif'
 					},
 					'col':'1',
 					'row':'1',
