@@ -41,7 +41,7 @@ var Widget = React.createClass({
 			case 'map':
 				html = <iframe src={this.props.data.url} />
 				break;
-			case 'quote':
+			case 'yodaquote':
 			case 'quote':
 				html = <p><b>{this.props.data.content.quote + "  "}</b><br/><i>- {this.props.data.content.author}</i></p>;
 				break;
