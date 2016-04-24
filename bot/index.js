@@ -487,15 +487,15 @@ function configureCloseWidget(controller, websocketServer) {
 function configureGitBlame(controller, websocketServer) {
     controller.hears('blame (\\w+)','direct_message,direct_mention,mention', function(bot, message) {
         request({
-            uri: 'https://api.github.com/users/' + message.match[1],
+            uri: 'https://api.github.com/users/' + message.match[1] + '/events',
             headers: {'User-Agent' : 'herbert'},
             json: true
         })
             .then(function(blamee) {
                 var payload = JSON.stringify({
-                    type: 'blamee',
+                    type: 'blame',
                     data: {
-                        content: blamee
+                        content: blamee[0]
                     },
                     col:'1',
                     row:'1',
