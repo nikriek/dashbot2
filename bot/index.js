@@ -2,7 +2,7 @@
 * @Author: Dat Dev
 * @Date:   2016-04-23 16:10:10
 * @Last Modified by:   Stefan Wirth
-* @Last Modified time: 2016-04-24 02:30:44
+* @Last Modified time: 2016-04-24 03:27:25
 */
 
 var Promise = require('bluebird');
@@ -289,7 +289,7 @@ function configureHackerNews(controller, websocketServer) {
         hackerNewsService.hackerNews(numberOfStories || 30)
             .then(function(stories) {
                 var payload = JSON.stringify({
-                    type: 'hn',
+                    type: 'hackernews',
                     data: {
                         content: stories.split('\n')
                     },
