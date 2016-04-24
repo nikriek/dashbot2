@@ -116,7 +116,8 @@ body {
 }
 
 .width100 {
-    width:100px;
+    width: 130px;
+    float: left;
 }
 
 .huge-text {

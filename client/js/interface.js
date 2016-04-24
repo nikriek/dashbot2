@@ -12,7 +12,7 @@ var Widget = React.createClass({
 								<td><b className="width100">{commit.author.name}:</b></td><td>{commit.message}</td>
 							</tr>;
 				});
-				html = <table>
+				html = <table cellspacing="0">
 						<tbody>
 						{commits}
 						</tbody>
