@@ -2,7 +2,7 @@
 * @Author: Dat Dev
 * @Date:   2016-04-23 16:10:10
 * @Last Modified by:   Stefan Wirth
-* @Last Modified time: 2016-04-24 03:27:25
+* @Last Modified time: 2016-04-24 03:42:12
 */
 
 var Promise = require('bluebird');
@@ -65,9 +65,10 @@ function start(websocketServer) {
 function getReply() {
     var replies = [
         'Gotcha mate.',
-        'Got you fam.',
+        'Got ya fam.',
         'Say no more.',
-        'As you command.'
+        'As you command.',
+        'Another one'
     ];
 
     return replies[Math.floor(Math.random() * replies.length)];
