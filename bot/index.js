@@ -2,7 +2,7 @@
 * @Author: Dat Dev
 * @Date:   2016-04-23 16:10:10
 * @Last Modified by:   Stefan Wirth
-* @Last Modified time: 2016-04-24 01:13:41
+* @Last Modified time: 2016-04-24 01:43:16
 */
 
 var Promise = require('bluebird');
@@ -53,6 +53,7 @@ function start(websocketServer) {
         configureGoogleMaps(controller, websocketServer);
         configureGiphy(controller, websocketServer);
         configureYoutube(controller, websocketServer);
+        configureTwitch(controller, websocketServer);
     });
 }
 
@@ -270,8 +271,8 @@ function configureYoutube(controller, websocketServer) {
 }
 
 
-function configureYoutube(controller, websocketServer) {
-    controller.hears('youtube (\\w+)', 'direct_message,direct_mention,mention', function(bot, message) {
+function configureTwitch(controller, websocketServer) {
+    controller.hears('twitch (\\w+)', 'direct_message,direct_mention,mention', function(bot, message) {
         var channel = message.match[1];
         var payload = JSON.stringify({
             type: 'twitch',
