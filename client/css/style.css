@@ -106,6 +106,17 @@ body {
 }
 
 
+.text-center {
+    text-align:center;
+}
+
+.top20 {
+    margin-top:20px;
+}
+
+.huge-text {
+    font-size:60px;
+}
 
 
 .weather {

@@ -221,7 +221,7 @@ function configureGithubCommitersList(controller, websocketServer) {
         .then(function(stats) {
             commiters = []
             stats.forEach(function(commiter){
-                commiters.push('[' + commiter.total + ']' + commiter.author.login);
+                commiters.push('[' + commiter.total + '] ' + commiter.author.login);
             });
 
             var payload = JSON.stringify({
@@ -231,7 +231,7 @@ function configureGithubCommitersList(controller, websocketServer) {
                 },
                 col:'1',
                 row:'1',
-                sizex:'2',
+                sizex:'1',
                 sizey:'2'
             });
 
