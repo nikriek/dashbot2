@@ -169,9 +169,9 @@ function configureGithubCommitsList(controller, websocketServer) {
 }
 
 function configureGithubTopCommiter(controller, websocketServer) {
-    controller.hears('top-commiter (\\w+)','direct_message,direct_mention,mention', function(bot, message) {
+    controller.hears('top-commiter (\\w+) (\\w+)','direct_message,direct_mention,mention', function(bot, message) {
         request({
-            uri: 'https://api.github.com/repos/' + message.match[1] + '/stats/contributors',
+            uri: 'https://api.github.com/repos/' + message.match[1] + '/' +  message.match[2] + '/stats/contributors',
             headers: {'User-Agent' : 'herbert'},
             json: true
         })
