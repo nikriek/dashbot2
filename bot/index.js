@@ -325,7 +325,7 @@ function configureQuotes(controller, websocketServer) {
                 },
                 col:'1',
                 row:'1',
-                sizex:'3',
+                sizex:'1',
                 sizey:'1'
             });
             websocketServer.clients.forEach(function(client) {
